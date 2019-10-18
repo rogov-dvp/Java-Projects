@@ -1,0 +1,54 @@
+package objects;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Timer;
+
+import javax.swing.JPanel;
+												//Key Listener: user's inputs
+												//ActionListener: Ball
+public class Gameplay extends JPanel implements KeyListener, ActionListener{
+	private boolean play = false; //will game start by itself? false -> no
+	private int score = 0;		  //Score?
+	
+	private int totalBricks = 21; //Amount of bricks
+	
+	private Timer timer;
+	private int delay = 8;		  //Timer delay
+	
+	private int playerX = 310;	  //Starting position of platform
+	
+	private int ballposX = 120;   //Ball starting X position
+	private int ballposy = 350;   //Ball starting Y position
+	private int ballXdir = -1;	  //??
+	private	int ballYdir = -2;	  //??
+		
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}	
+	
+}
