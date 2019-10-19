@@ -95,7 +95,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 			g.drawString("Game Over, Score: " + score, 190, 300);
 			
 			g.setFont(new Font("serif",Font.BOLD, 20));
-			g.drawString("Press Enter to Restart", 230, 330);
+			g.drawString("Press Enter to Restart", 230, 350);
 		}
 		
 		g.dispose();

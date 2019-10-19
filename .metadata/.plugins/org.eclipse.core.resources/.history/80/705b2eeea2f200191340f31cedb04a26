@@ -95,7 +95,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 			g.drawString("Game Over, Score: " + score, 190, 300);
 			
 			g.setFont(new Font("serif",Font.BOLD, 20));
-			g.drawString("Press Enter to Restart", 230, 330);
+			g.drawString("Press Enter to Restart", 230, 350);
 		}
 		
 		g.dispose();
@@ -164,9 +164,6 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 	public void keyTyped(KeyEvent e) {}	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			System.exit(0);
-		}
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			if(playerX >= 583) //check that it doesn't go outside of frame
 				playerX = 583;
@@ -194,6 +191,13 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 				
 				repaint();	
 			}
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			if(play) {
+				System.exit(1);
+				setVisible(false);
+//				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			}
+		}
 		
 	}
 	}
@@ -204,7 +208,6 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 	public void moveLeft() {
 		play=true;
 		playerX-=50;
-
 	}
 
 	
