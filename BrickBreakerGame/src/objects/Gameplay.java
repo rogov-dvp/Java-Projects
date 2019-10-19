@@ -1,6 +1,7 @@
 package objects;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -25,10 +26,10 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 	
 	private int playerX = 310;	  //Starting position of platform
 	
-	private int ballposX = (int)(Math.random()*692);   //Ball starting X position
-	private int ballposY = (int)((Math.random()*351)+150);   //Ball starting Y position
-	private int ballXdir = -2;	  //??
-	private	int ballYdir = -4;	  //??
+	private int ballposX = (int)((Math.random()*620)+40);   //Ball starting X position
+	private int ballposY = (int)((Math.random()*101)+350);   //Ball starting Y position
+	private int ballXdir = -2;	  //negative direction is upwards	
+	private	int ballYdir = -4;	  
 	
 	private MapGenerator map;
 	
@@ -41,6 +42,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 		timer.start();
 	}
 	
+	//Sets: starting map, lose, and win.
 	public void paint(Graphics g) {
 		//background
 		g.setColor(Color.black);
@@ -55,6 +57,11 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 		g.fillRect(0,0,692, 3);
 		g.fillRect(683,0,3, 592);			
 		
+		//scores
+		g.setColor(Color.white);
+		g.setFont(new Font("serif",Font.BOLD, 25));
+		g.drawString(""+score,590,30);					
+		
 		//The paddle
 		g.setColor(Color.green);
 		g.fillRect(playerX, 550, 100 ,8);
@@ -62,6 +69,33 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 		//the ball 
 		g.setColor(Color.yellow);
 		g.fillOval(ballposX, ballposY, 20, 20);
+		
+		if(totalBricks <= 0) {
+			play = false;
+			ballXdir = 0;
+			ballYdir = 0;
+			g.setColor(Color.GREEN);
+			g.setFont(new Font("serif",Font.BOLD, 30));
+			g.drawString("Excellent, You Win!!", 190, 300);
+			g.drawString("Score: "+score, 270, 335);		//Note: distances are measured from the top
+		
+			g.setColor(Color.BLUE);
+			g.setFont(new Font("serif",Font.BOLD, 20));
+			g.drawString("Press Enter to Restart", 230, 370);
+
+		}
+		
+		if(ballposY > 570) {
+			play = false;
+			ballXdir = 0;
+			ballYdir = 0;
+			g.setColor(Color.RED);
+			g.setFont(new Font("serif",Font.BOLD, 30));
+			g.drawString("Game Over, Score: " + score, 190, 300);
+			
+			g.setFont(new Font("serif",Font.BOLD, 20));
+			g.drawString("Press Enter to Restart", 230, 350);
+		}
 		
 		g.dispose();
 	}
@@ -81,7 +115,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 				for(int j = 0; j< map.map[0].length;j++) {		//second map is from MapGenerator class
 					if(map.map[i][j] > 0) {
 						int brickX = j*map.brickWidth + 80;
-						int brickY = i*map.brickHeight + 70;	
+						int brickY = i*map.brickHeight + 50;	
 						int brickWidth = map.brickWidth;
 						int brickHeight = map.brickHeight;
 						
@@ -141,16 +175,33 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 			 else
 				moveLeft();
 		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if(!play) {
+				play = true;
+				ballposX = (int)((Math.random()*620)+40);
+				ballposY = (int)((Math.random()*101)+350);
+				ballXdir = -2;
+				ballYdir = -4;
+				playerX = 310;
+				score = 0;
+				totalBricks = 21;		
+				map = new MapGenerator(3,7);
+				
+				repaint();	
+			}
+		
 	}
-	
+	}
 	public void moveRight() {
 		play=true;
-		playerX+=45;
+		playerX+=50;
 	}
 	public void moveLeft() {
 		play=true;
-		playerX-=45;
+		playerX-=50;
 	}
+
 	
 }
 
