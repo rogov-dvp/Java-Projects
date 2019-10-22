@@ -22,8 +22,8 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int playerCol;												//player column
 	private int[][] player = new int[playerRow][playerCol];				//player position
 	
-	private int mazeRowBorder;											//One side of Boundaries
-	private int mazeColBorder;											//One side of Boundaries
+	private int mazeRowBorder;											//One row-side of boundaries
+	private int mazeColBorder;											//One col-side of boundaries
 	private int[][] finishSquare;										//"finish line"
 	private boolean[][] isWall;											//shows that part of the array[][] is considered a wall 
 	
@@ -31,7 +31,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	
 //constructors
 	public GameStart() {
-		maze = new MazeGenerator();	//Generate maze. Parameters will be chosen by user
+		maze = new MazeGenerator(15, 15);	//Generate maze(row,col). Parameters will be chosen by user. Based on difficult
 		addKeyListener(this);		//
 		setFocusable(true); 		//by default
 		setFocusTraversalKeysEnabled(false);	//tab and shift are disabled	
@@ -72,23 +72,27 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_UP) {				
-			if(!isWall[playerRow][playerCol--])								//if no wall
+		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_ESCAPE) 	//exit game. maybe give a prompt
+			System.exit(0);
+			
+		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {				
+			if(!isWall[playerRow][playerCol--])												//if no wall
 				playerCol--;						//Player moves up. decrement because vertical axis are flipped
 		}
-		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+		if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 			if(!isWall[playerRow][playerCol++])
 				playerCol++;						//Player moves down 
 		}
-		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+		if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
 			if(!isWall[playerRow--][playerCol])
 				playerRow--;						//player moves left
 		}
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT ||e.getKeyCode() == KeyEvent.VK_D) {
 			if(!isWall[playerRow++][playerCol])
 				playerRow++;							//player moves right
 		}
