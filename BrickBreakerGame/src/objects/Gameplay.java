@@ -71,7 +71,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 		g.setColor(Color.yellow);
 		g.fillOval(ballposX, ballposY, 20, 20);
 		
-		if(totalBricks <= 15) {		//Only need to hit 6 to win game. For demonstration purposes
+		if(totalBricks <= 12) {		//Only need to hit 6 to win game. For demonstration purposes
 			play = false;
 			ballXdir = 0;
 			ballYdir = 0;
