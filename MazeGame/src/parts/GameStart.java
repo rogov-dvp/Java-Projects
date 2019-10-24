@@ -7,8 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Timer;
-
+//
+import javax.swing.Timer;
 import javax.swing.JPanel;
 
 public class GameStart extends JPanel implements KeyListener, ActionListener{
@@ -18,25 +18,31 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private Timer timer;
 	private int delay = 8;
 	
-	private int playerRow;												//player row
-	private int playerCol;												//player column
-	private int[][] player = new int[playerRow][playerCol];				//player position
+	//player character
+	private int playerWidth = 40;											//player row
+	private int playerHeight = 300;											//player column
+	private int n = 20;														//ball size and jump increments
 	
-	private int mazeRowBorder;											//One row-side of boundaries
-	private int mazeColBorder;											//One col-side of boundaries
-	private int[][] finishSquare;										//"finish line"
-	private boolean[][] isWall;											//shows that part of the array[][] is considered a wall 
+	//maze dimensions
+	private int mazeDim = 600;											//One row-side of boundaries
+	private int mazeN = 4;
+	//line start
+	private final int rectXOrigin = playerWidth;
+	private final int rectYOrigin = playerHeight;
+	private int rectX = playerWidth;		
+	private int rectY = playerHeight;
+		
 	
 	private MazeGenerator maze;		//For create a maze
 	
 //constructors
 	public GameStart() {
-		maze = new MazeGenerator(15, 15);	//Generate maze(row,col). Parameters will be chosen by user. Based on difficult
-		addKeyListener(this);		//
-		setFocusable(true); 		//by default
+//		maze = new MazeGenerator(mazeN,mazeN);
+		addKeyListener(this);		
+		setFocusable(true); 					//by default
 		setFocusTraversalKeysEnabled(false);	//tab and shift are disabled	
-//		timer = new Timer(delay, this);
-//		timer.start();
+		timer = new Timer(delay, this);
+		timer.start();
 	}
 	
 	public void paint(Graphics g) {
@@ -44,60 +50,86 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 700, 600);
 		
-		//Drawing Maze
-//		maze.draw((Graphics2D)g);
+		//Wall
+		g.setColor(Color.YELLOW);
+//		g.drawRect(lsX1, lsY1, lsX2, lsY2);		//x1 -> x2
+		for(int i = 0; i < mazeN; i++) {
+			for(int j = 0; j < mazeN; j++) {
+				g.setColor(Color.YELLOW);
+				g.drawRect(rectX, rectY, 20, 20);
+				rectX +=20;
+			}
+				rectY +=20;
+				rectX=rectXOrigin;
+		}
+		rectY=rectYOrigin;
+
 		
 		//character
 		g.setColor(Color.WHITE);
-		g.fillOval(40,300,16,16);
+		g.fillOval(playerWidth,playerHeight,n,n);	//40,300,n,n
 		
-		//If player reaches finish line.
-//		if(player[25][25] == finishSquare[25][25]) {		//25 are example, if 
-//			play = false;									//Stop game
-//			g.setColor(Color.GREEN);						//Message color
-//			g.setFont(new Font("serif",Font.BOLD,30));		//Message font
-//			g.drawString("You win!",190,330);				//Win message
-//															//add timer?
-//		}
-		//maybe add a time limit, if they choose to have one
+	
+		
 	}
 	
 //methods	
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-	}
+	public void keyReleased(KeyEvent arg0) {}
 	@Override
-	public void keyTyped(KeyEvent arg0) {
-	}
+	public void keyTyped(KeyEvent arg0) {}
 
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		timer.start();	
+		//
+		repaint();
 	}
+	
+	
+	
+	
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_ESCAPE) 	//exit game. maybe give a prompt
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) 	//exit game. maybe give a prompt
 			System.exit(0);
 			
-		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {				
-			if(!isWall[playerRow][playerCol--])												//if no wall
-				playerCol--;						//Player moves up. decrement because vertical axis are flipped
+		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {		
+			if(playerHeight>0)
+				moveDown();							//Reversed in Height. player pressed up to move Player moves down 
 		}
 		if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
-			if(!isWall[playerRow][playerCol++])
-				playerCol++;						//Player moves down 
+			if(playerHeight< mazeDim)
+				moveUp();							//player moves up
 		}
 		if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
-			if(!isWall[playerRow--][playerCol])
-				playerRow--;						//player moves left
+			if(playerWidth > 0)
+				moveLeft();							//player moves left
 		}
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT ||e.getKeyCode() == KeyEvent.VK_D) {
-			if(!isWall[playerRow++][playerCol])
-				playerRow++;							//player moves right
+			if(playerWidth < mazeDim)
+				moveRight();						//player moves right
 		}
 
 	}
-
+	public void moveUp() {
+		play = true;
+		playerHeight+=n;
+	}
+	public void moveDown() {
+		play = true;
+		playerHeight-=n;						//Player moves down 
+	}
+	public void moveLeft() {
+		play = true;
+		playerWidth-=n;						//player moves left
+	}
+	public void moveRight() {
+		play = true;
+		playerWidth+=n;							//player moves right
+	}
 
 }
