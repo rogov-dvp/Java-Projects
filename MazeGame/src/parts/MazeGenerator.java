@@ -8,6 +8,7 @@ import java.util.List;
 //Generates the maze.
 public class MazeGenerator {
 	Node[][] maze;									//maze of nodes
+
 	
 	
 	MazeGenerator(int sizeX, int sizeY) {			//Set a minimal limit eg.(5,5)	Should be done in "StartGame" class
@@ -20,14 +21,13 @@ public class MazeGenerator {
 	}
 	
 public void createMaze(int x, int y) {
-	int pointerX = x/2;
+	int pointerX = x/2;														//player starts half way on the left side
 	int pointerY = y;
 	List<Integer> array = new ArrayList<Integer>(Arrays.asList(1,2,3,4));
 	Node current = new Node(pointerX,pointerY);								//First node
-	Stack stack = new Stack(current);										//New Stack, with the first new node
+	Stack stack = new Stack(current);										//New Stack with the first new node
 	
 	for(int i = 0; i < (x*y);i++) {											//repeats based on the area of the square(width*height)
-	// maybe use this later?
 	while(current.getUp() == null || current.getRight() == null ||
 			current.getDown() == null || current.getLeft() == null) {
 		current.setBorder();												// if current hits dead-end. set Node border and move back

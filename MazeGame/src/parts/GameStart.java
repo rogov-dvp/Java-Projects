@@ -17,24 +17,51 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	
 	private Timer timer;
 	private int delay = 8;
+	//frame size
+	private int width = 1060;
+	private int height = 530;
+	
+	//maze
+	private MazeGenerator maze;											//Maze
+	//maze dimensions
+	private int mazeX = 25;														
+	private int mazeY = 13;
 	
 	//player character
-	private int playerWidth = 40;											//player row
-	private int playerHeight = 300;											//player column
-	private int n = 20;														//ball size and jump increments
+	private int playerWidth = 100;											//player row
+	private int playerHeight = 250;											//player column
+	private int n = 32;														//ball size and jump increments
+
+	//The 4 borders and anchor coordinates:		(100,50)				//for easier changes
+	private int ancX = 100;
+	private int ancY = 26;
+	private int ancXplus = ancX+n;
+	private int ancYplus = ancY+n;
 	
-	//maze dimensions
-	private int mazeDim = 600;											//One row-side of boundaries
-	private int mazeN = 4;
-	//line start
-	private final int rectXOrigin = playerWidth;
-	private final int rectYOrigin = playerHeight;
-	private int rectX = playerWidth;		
-	private int rectY = playerHeight;
+	//up-border
+	private int upX1 = ancX;
+	private int upY1 = ancY;
+	private int upX2 = ancXplus;								
+	private int upY2 = ancY;
+	
+	//right-border
+	private int rX1 = ancXplus;
+	private int rY1 = ancY;
+	private int rX2 = ancXplus;
+	private int rY2 = ancYplus;
+	
+	//bottom-border
+	private int bX1 = ancXplus;
+	private int bY1 = ancYplus;
+	private int bX2 = ancX;
+	private int bY2 = ancYplus;
+	
+	//left-border
+	private int lX1 = ancX; 
+	private int lY1 = ancYplus;
+	private int lX2 = ancX;
+	private int lY2 = ancY;
 		
-	
-	private MazeGenerator maze;		//For create a maze
-	
 //constructors
 	public GameStart() {
 //		maze = new MazeGenerator(mazeN,mazeN);
@@ -48,29 +75,32 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	public void paint(Graphics g) {
 		//background
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, 700, 600);
-		
-		//Wall
-		g.setColor(Color.YELLOW);
-//		g.drawRect(lsX1, lsY1, lsX2, lsY2);		//x1 -> x2
-		for(int i = 0; i < mazeN; i++) {
-			for(int j = 0; j < mazeN; j++) {
-				g.setColor(Color.YELLOW);
-				g.drawRect(rectX, rectY, 20, 20);
-				rectX +=20;
-			}
-				rectY +=20;
-				rectX=rectXOrigin;
-		}
-		rectY=rectYOrigin;
-
-		
+		g.fillRect(0, 0,1100, 600);
+				
 		//character
 		g.setColor(Color.WHITE);
 		g.fillOval(playerWidth,playerHeight,n,n);	//40,300,n,n
 		
-	
-		
+		//The four borders used
+		g.setColor(Color.YELLOW);
+		//up,right,bottom,left
+		//Build borders;
+		for(int i = 0; i < mazeY+2; i++) {					//Left-->Right
+			for(int j = 0; j < mazeX+2; j++) {				//Up-->Bottom
+				if(maze.maze[j][i].getUp() == null)
+				g.drawLine(upX1+n*(j), upY1+n*(i), upX2+n*(j), upY2+n*(i));						//Up border
+				
+				if(maze.maze[j][i].getRight() == null)
+				g.drawLine(rX1+n*(j), rY1+n*(i), rX2+n*(j), rY2+n*(i));							//Right border
+				
+				if(maze.maze[j][i].getDown() == null)
+				g.drawLine(bX1+n*(j), bY1+n*(i), bX2+n*(j), bY2+n*(i));							//Bottom border
+				
+				if(maze.maze[j][i].getLeft() == null)
+				g.drawLine(lX1+n*(j), lY1+n*(i), lX2+n*(j), lY2+n*(i));				//Left border
+			}
+		}
+
 	}
 	
 //methods	
@@ -78,13 +108,11 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	public void keyReleased(KeyEvent arg0) {}
 	@Override
 	public void keyTyped(KeyEvent arg0) {}
-
-	
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		timer.start();	
-		//
+		//implement array
+
 		repaint();
 	}
 	
@@ -102,7 +130,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 				moveDown();							//Reversed in Height. player pressed up to move Player moves down 
 		}
 		if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
-			if(playerHeight< mazeDim)
+			if(playerHeight< height)
 				moveUp();							//player moves up
 		}
 		if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
@@ -110,7 +138,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 				moveLeft();							//player moves left
 		}
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT ||e.getKeyCode() == KeyEvent.VK_D) {
-			if(playerWidth < mazeDim)
+			if(playerWidth < width)
 				moveRight();						//player moves right
 		}
 
