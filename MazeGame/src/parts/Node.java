@@ -23,37 +23,47 @@ boundaries example:
 Use in stack:
 pointer --> (x,y)
 if((++x,y) != null || (x,++y) != null || (--x,y) != null || (x,--y) != null) {
-Then go backwards in stack
+Then go backwards in stack and check again
 }
 
 ------------------------------------------
 */	
 
 public class Node {	
+	//coordinates
+	private int x;
+	private int y;
 	private byte border;			 //Binary value dictates what type of border it is.
+	private Node next;				 //For Stack
 	//links from node
 	private Node up;
 	private Node right;
 	private Node down;
 	private Node left;
 	
+	
 //constructors	
-	public Node() {}
+	public Node(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 //boundaries border-type constructors
 	public Node(byte bin) {					//When creating borders, use (5,10,15)
 		switch(bin) {							
-		case 5: border = 0b00000101;		//(5) 0000 0101, horizontal passage border (used in up/down side)
+		case 5:  border = 0b00000101;		//(5)  0000 0101, vertical passage border (used in left/right side)
 			break;
-		case 10: border = 0b00001010;		//(10) 0000 1010, vertical passage border (used in left/right side)
+		case 10: border = 0b00001010;		//(10) 0000 1010, horizontal passage border (used in up/down side)
 			break;
 		default: border = 0b00001111;		//(15 or error becomes a box) (should be used in corner borders)
 		}
 	}
-//borders
+//Borders
+//Get border value
 	public byte getBorder() {
 		return border;
 	}
-	public void setBorder() {				//should be used only when all 4 sides are not null(this is checked in stack)
+//Set border value; Should be used only when all 4 sides are not null(this is checked in stack)
+	public void setBorder() {				
 		byte sum = 0b00000000;
 		if(up == null)
 			sum|=0b00001000;
@@ -66,7 +76,7 @@ public class Node {
 		border = sum;	//(range from 0-15)
 	}
 	
-//	Adding nodes
+//	Adding surrounding nodes
 	public void setUp(Node up) {			//In stack, update the nodes through these methods
 		this.up = up;
 	}
@@ -93,6 +103,18 @@ public class Node {
 	public Node getLeft() {
 		return left;
 	}
-	
-	
+//	Getting coordinates
+	public int getX() {
+		return x;
+	}
+	public int getY() {
+		return y;
+	}
+//  Set and get Next
+	public Node getNext() {
+		return next;
+	}
+	public void setNext(Node N) {
+		next = N;
+	}
 }
