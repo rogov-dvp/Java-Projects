@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Objects;
+
 //
 import javax.swing.Timer;
 import javax.swing.JPanel;
@@ -24,20 +26,20 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	//maze
 	private MazeGenerator maze;											//Maze
 	//maze dimensions
-	private int mazeX = 25;														
-	private int mazeY = 13;
+	private int mazeX = 5;														
+	private int mazeY = 5;
 	
-	//player character
-	private int playerWidth = 100;											//player row
-	private int playerHeight = 250;											//player column
-	private int n = 32;														//ball size and jump increments
 
 	//The 4 borders and anchor coordinates:		(100,50)				//for easier changes
+	private int n = 32;														//ball size and jump increments
 	private int ancX = 100;
 	private int ancY = 26;
 	private int ancXplus = ancX+n;
 	private int ancYplus = ancY+n;
 	
+	//player character
+	private int playerWidth = ancX;											//player row
+	private int playerHeight = 250;											//player column
 	//up-border
 	private int upX1 = ancX;
 	private int upY1 = ancY;
@@ -64,7 +66,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		
 //constructors
 	public GameStart() {
-//		maze = new MazeGenerator(mazeN,mazeN);
+		maze = new MazeGenerator(mazeX,mazeY);
 		addKeyListener(this);		
 		setFocusable(true); 					//by default
 		setFocusTraversalKeysEnabled(false);	//tab and shift are disabled	
@@ -73,6 +75,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	}
 	
 	public void paint(Graphics g) {
+		try {
 		//background
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0,1100, 600);
@@ -87,20 +90,24 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		//Build borders;
 		for(int i = 0; i < mazeY+2; i++) {					//Left-->Right
 			for(int j = 0; j < mazeX+2; j++) {				//Up-->Bottom
-				if(maze.maze[j][i].getUp() == null)
+//				if(maze.maze[j][i].getUp() == null)
 				g.drawLine(upX1+n*(j), upY1+n*(i), upX2+n*(j), upY2+n*(i));						//Up border
 				
-				if(maze.maze[j][i].getRight() == null)
+//				if(maze.maze[j][i].getRight() == null)
 				g.drawLine(rX1+n*(j), rY1+n*(i), rX2+n*(j), rY2+n*(i));							//Right border
-				
-				if(maze.maze[j][i].getDown() == null)
+				System.out.println(maze.maze[i][j]);
+//				if(Objects.equals(maze.maze[i][j].getDown(), null))
 				g.drawLine(bX1+n*(j), bY1+n*(i), bX2+n*(j), bY2+n*(i));							//Bottom border
 				
-				if(maze.maze[j][i].getLeft() == null)
+//				if(maze.maze[j][i].getLeft() == null)
 				g.drawLine(lX1+n*(j), lY1+n*(i), lX2+n*(j), lY2+n*(i));				//Left border
 			}
 		}
-
+		}catch  (NullPointerException e) {
+//			System.out.println(e.getMessage());
+			System.out.println(e.toString());
+		} 
+		
 	}
 	
 //methods	

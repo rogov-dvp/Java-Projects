@@ -35,11 +35,12 @@ public class Node {
 	private int y;
 	private byte border;			 //Binary value dictates what type of border it is.
 	private Node next;				 //For Stack
+
 	//links from node
-	private Node up;
-	private Node right;
-	private Node down;
-	private Node left;
+	private Node up = null;
+	private Node right = null;
+	private Node down = null;
+	private Node left = null;
 	
 	
 //constructors	
@@ -48,11 +49,17 @@ public class Node {
 		this.y = y;
 	}
 //boundaries border-type constructors
-	public Node(byte bin) {					//When creating borders, use (5,10,15)
-		switch(bin) {							
+	public Node(int x, int y, byte bin) {					//When creating borders, use (5,10,15)
+		this.x = x;
+		this.y = y;
+		switch(bin) {					
+		case 0:  border = 0b00000000;
+			break;
 		case 5:  border = 0b00000101;		//(5)  0000 0101, vertical passage border (used in left/right side)
 			break;
 		case 10: border = 0b00001010;		//(10) 0000 1010, horizontal passage border (used in up/down side)
+			break;
+		case 15: border = 0b00001111;		//(15) 0000 1111, for box like squares
 			break;
 		default: border = 0b00001111;		//(15 or error becomes a box) (should be used in corner borders)
 		}
@@ -117,4 +124,18 @@ public class Node {
 	public void setNext(Node N) {
 		next = N;
 	}
+//return boolean
+	public boolean isUpNull() {
+		return (up == null)?true:false;
+	}
+	public boolean isRightNull() {
+		return (right == null)?true:false;	
+	}
+	public boolean isDownNull() {
+		return (down == null)?true:false;
+	}
+	public boolean isLeftNull() {
+		return (left == null)?true:false;
+	}
+
 }
