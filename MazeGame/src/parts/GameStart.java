@@ -26,8 +26,8 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	//maze
 	private MazeGenerator maze;											//Maze
 	//maze dimensions
-	private int mazeX = 5;														
-	private int mazeY = 5;
+	private int mazeX = 8;														
+	private int mazeY = 8;
 	
 
 	//The 4 borders and anchor coordinates:		(100,50)				//for easier changes
@@ -95,7 +95,6 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 				
 //				if(maze.maze[j][i].getRight() == null)
 				g.drawLine(rX1+n*(j), rY1+n*(i), rX2+n*(j), rY2+n*(i));							//Right border
-				System.out.println(maze.maze[i][j]);
 //				if(Objects.equals(maze.maze[i][j].getDown(), null))
 				g.drawLine(bX1+n*(j), bY1+n*(i), bX2+n*(j), bY2+n*(i));							//Bottom border
 				
