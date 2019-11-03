@@ -3,16 +3,26 @@ package parts;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Objects;
 
 //
 import javax.swing.Timer;
 import javax.swing.JPanel;
 
+/*
+Game: Maze but cooler (more features such as less visibility, "monster" chasing)
+Developer: Alex Rogov
+British Columbia, Canada
+email: alexrogov182.rogov@gmail.com	
+*/
 public class GameStart extends JPanel implements KeyListener, ActionListener{
 //attributes
 	private boolean play = false;		
@@ -26,8 +36,8 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	//maze
 	private MazeGenerator maze;										//maze reference
 	//maze dimensions
-	private int mazeX = 10;											//Width	of maze without borders
-	private int mazeY = 10;											//Height of maze without borders
+	private int mazeX = 14;											//Width	of maze without borders
+	private int mazeY = 14;											//Height of maze without borders
 	
 	//anchor coordinates:		
 	private int n = 32;												//IMPORTANT. ball pixel size and jump increments
@@ -73,6 +83,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	}
 	
 	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
 		//background
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0,1100, 600);
@@ -101,6 +112,16 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 				g.drawLine(lX1+n*(i), lY1+n*(j), lX2+n*(i), lY2+n*(j));				//Left border
 			}
 		}
+		//Reduce visibility
+		g.setColor(Color.DARK_GRAY);
+		Area a1 = new Area(new Rectangle2D.Double(0, 0, 1100, 600)); //20 20 100 100
+		Area a2 = new Area(new Ellipse2D.Double(playerX-120/2, playerY-120/2, 150, 150)); //50 50 100 10
+		Area a3 = new Area(new Ellipse2D.Double(ballEndX-30, ballEndY-30, 75, 75));
+		a1.subtract(a2);	//subtract player ball circle from Rect
+		a1.subtract(a3);	//subtract finish line circle from Rect
+		g2d.fill(a1);
+		
+		//finish line ball. Place AFTER visibility reducer
 		g.setColor(Color.RED);
 		g.fillOval(ballEndX, ballEndY, n/2, n/2);
 		if(playerX == (ballEndX-n/4) && playerY == (ballEndY-n/4)) {
