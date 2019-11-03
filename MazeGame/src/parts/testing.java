@@ -5,6 +5,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.util.Objects;
+
 
 public class testing {
 	public static void main(String[] args) {
@@ -26,6 +40,9 @@ public class testing {
 		Collections.shuffle(array);
 		System.out.println(array.size());
 		}	
-
-}
+	public void paint(Graphics g) {
+		System.out.println(Toolkit.getDefaultToolkit().getFontList());
+		
+	}
+	}
 
