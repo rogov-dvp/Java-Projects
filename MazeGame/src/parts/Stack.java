@@ -22,7 +22,7 @@ public class Stack{
 		}
 	}
 	public int checkDiffY() {
-		if(top.getNext() == null) {System.out.println("Stack empty");return -1;} 
+		if(top.getNext().getNext() == null) {System.out.println("Stack empty");return -2;} 
 		else {
 			return top.getNext().getNext().getY() - top.getNext().getY();			
 	}

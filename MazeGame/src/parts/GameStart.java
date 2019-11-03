@@ -24,22 +24,33 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int height = 530;
 	
 	//maze
-	private MazeGenerator maze;											//Maze
+	private MazeGenerator mazeGen;											//Maze
 	//maze dimensions
-	private int mazeX = 8;														
-	private int mazeY = 8;
+	private int mazeX = 10;			//Width						
+	private int mazeY = 10;			//Height 
 	
-
 	//The 4 borders and anchor coordinates:		(100,50)				//for easier changes
-	private int n = 32;														//ball size and jump increments
+	private int n = 32;		//ball size and jump increments
+	private int nCalc = 26;
+	//calculations for ancX and ancY
+	private int calcY1 = (600-(nCalc*(mazeY+2)))/2; 
+	
 	private int ancX = 100;
-	private int ancY = 26;
+	private int ancY = calcY1;
+	
+	
+	
+	
+	
 	private int ancXplus = ancX+n;
 	private int ancYplus = ancY+n;
 	
 	//player character
-	private int playerWidth = ancX;											//player row
+	private int playerWidth = ancX+n;											//player row
 	private int playerHeight = 250;											//player column
+	//up-border
+	
+	
 	//up-border
 	private int upX1 = ancX;
 	private int upY1 = ancY;
@@ -64,9 +75,9 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int lX2 = ancX;
 	private int lY2 = ancY;
 		
-//constructors
+///constructors
 	public GameStart() {
-		maze = new MazeGenerator(mazeX,mazeY);
+		mazeGen = new MazeGenerator(mazeX,mazeY);
 		addKeyListener(this);		
 		setFocusable(true); 					//by default
 		setFocusTraversalKeysEnabled(false);	//tab and shift are disabled	
@@ -88,22 +99,23 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		g.setColor(Color.YELLOW);
 		//up,right,bottom,left
 		//Build borders;
-		for(int i = 0; i < mazeY+2; i++) {					//Left-->Right
-			for(int j = 0; j < mazeX+2; j++) {				//Up-->Bottom
-//				if(maze.maze[j][i].getUp() == null)
-				g.drawLine(upX1+n*(j), upY1+n*(i), upX2+n*(j), upY2+n*(i));						//Up border
+		for(int i = 0; i < mazeY+2; i++) {					//horizontal. x-axis
+			for(int j = 0; j < mazeX+2; j++) {				//vertical. y-axis
+				byte bits =	 (byte) (mazeGen.maze[j][i].getBorder());
+				if((bits&0b1000) == 0b1000)
+				g.drawLine(upX1+n*(i), upY1+n*(j), upX2+n*(i), upY2+n*(j));						//Up border
 				
-//				if(maze.maze[j][i].getRight() == null)
-				g.drawLine(rX1+n*(j), rY1+n*(i), rX2+n*(j), rY2+n*(i));							//Right border
-//				if(Objects.equals(maze.maze[i][j].getDown(), null))
-				g.drawLine(bX1+n*(j), bY1+n*(i), bX2+n*(j), bY2+n*(i));							//Bottom border
+				if((bits&0b100) == 0b100)
+				g.drawLine(rX1+n*(i), rY1+n*(j), rX2+n*(i), rY2+n*(j));							//Right border
 				
-//				if(maze.maze[j][i].getLeft() == null)
-				g.drawLine(lX1+n*(j), lY1+n*(i), lX2+n*(j), lY2+n*(i));				//Left border
+				if((bits&0b10) == 0b10)
+				g.drawLine(bX1+n*(i), bY1+n*(j), bX2+n*(i), bY2+n*(j));							//Bottom border
+		
+				if((bits&0b1) == 0b1)
+				g.drawLine(lX1+n*(i), lY1+n*(j), lX2+n*(i), lY2+n*(j));				//Left border
 			}
 		}
 		}catch  (NullPointerException e) {
-//			System.out.println(e.getMessage());
 			System.out.println(e.toString());
 		} 
 		
@@ -122,16 +134,13 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		repaint();
 	}
 	
-	
-	
-	
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) 	//exit game. maybe give a prompt
 			System.exit(0);
 			
-		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {		
+		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {	
+			
 			if(playerHeight>0)
 				moveDown();							//Reversed in Height. player pressed up to move Player moves down 
 		}

@@ -9,6 +9,8 @@ import java.util.List;
 public class testing {
 	public static void main(String[] args) {
 		//byte: 8 bits
+		
+		System.out.println(5 + -1);
 /*		byte a = 0b00001000; //0011 1100       value: 
 							 //1100 0011
 		byte b = 0b00000100; //0000 1101	   value: 13

@@ -37,10 +37,10 @@ public class Node {
 	private Node next;				 //For Stack
 
 	//links from node
-	private Node up = null;
-	private Node right = null;
-	private Node down = null;
-	private Node left = null;
+	private Node up;
+	private Node right;
+	private Node down;
+	private Node left;
 	
 	
 //constructors	
@@ -53,15 +53,12 @@ public class Node {
 		this.x = x;
 		this.y = y;
 		switch(bin) {					
-		case 0:  border = 0b00000000;
+		case 5:  border = 0b101;		//(5)  0000 0101, vertical passage border (used in left/right side)
 			break;
-		case 5:  border = 0b00000101;		//(5)  0000 0101, vertical passage border (used in left/right side)
+		case 10: border = 0b1010;		//(10) 0000 1010, horizontal passage border (used in up/down side)
 			break;
-		case 10: border = 0b00001010;		//(10) 0000 1010, horizontal passage border (used in up/down side)
+		case 15: border = 0b1111;		//(15) 0000 1111, for box like squares
 			break;
-		case 15: border = 0b00001111;		//(15) 0000 1111, for box like squares
-			break;
-		default: border = 0b00001111;		//(15 or error becomes a box) (should be used in corner borders)
 		}
 	}
 //Borders
@@ -73,13 +70,13 @@ public class Node {
 	public void setBorder() {				
 		byte sum = 0b00000000;
 		if(up == null)
-			sum|=0b00001000;
+			sum|=0b1000;
 		if(right == null)
-			sum|=0b00000100;
+			sum|=0b100;
 		if(down == null)
-			sum|=0b00000010;
+			sum|=0b10;
 		if(left == null)
-			sum|=0b00000001;
+			sum|=0b1;
 		border = sum;	//(range from 0-15)
 	}
 	

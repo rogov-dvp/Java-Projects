@@ -18,7 +18,7 @@ public class MazeGenerator {
 		maze = new Node[x][y];						//Sets size of maze
 		createBoundaries(x,y);						//Creates Node boundaries of maze (walls of maze)
 		createMaze(x,y);								//USES UPDATED SIZE.
-		setAllBorders(x,y);
+		setInnerBorders(x,y);
 	}
 	
 public void createMaze(int x, int y) {
@@ -39,19 +39,19 @@ public void createMaze(int x, int y) {
 		while(( maze[nextX(-1)][pointerY] != null && maze[pointerX][nextY(1)] != null &&
 				maze[nextX(1)][pointerY] != null && maze[pointerX][nextY(-1)] != null)) {
 	
-			if(stack.checkDiffX() == -2) {
-				break B;
+			if(stack.checkDiffX() == -2 || stack.checkDiffY() == -2) {
+				break B;									//exit createMaze()
 			} else if(stack.checkDiffX() != 0) {
-				pointerX = pointerX + stack.checkDiffX();	
-			} else 	
-				pointerY = pointerY + stack.checkDiffY();	
-			
-		current.setBorder();												// if current hits dead-end. set Node border and move back
-		current = stack.pop(); 
-
+				pointerX = pointerX + stack.checkDiffX();
+			} else if(stack.checkDiffY() != 0) {
+				pointerY = pointerY + stack.checkDiffY();
+			}
+			current = maze[pointerX][pointerY];
+			stack.pop();
 		}
 
 		switch(array.get(j)) {
+		
 		
 		case 0:			
 			if(maze[nextX(-1)][pointerY] == null && pointerX > 1) {									//If null, it means that pointer has never been there
@@ -59,7 +59,7 @@ public void createMaze(int x, int y) {
 				current.setUp(newNode);										//LINK-UP
 				newNode.setDown(current);									//LINK-DOWN
 				stack.add(newNode);											//Add Node to stack
-				maze[pointerX][pointerY] = newNode;						//Add Node to Maze
+				maze[pointerX][pointerY] = newNode;						    //Add Node to Maze
 				current = newNode;											//the pointer: current be newNode. So iteration can start over
 				break A;
 			} 
@@ -106,33 +106,36 @@ public void createMaze(int x, int y) {
 	}
 }
 
-public void setAllBorders(int x, int y) {									//original values are past
-	for(int i = 1; i<x-1; i++) {												//Go thru each node and 
-		for(int j = 1; j < y-1; j++) {										//finalize all borders.
+public void setInnerBorders(int x, int y) {								//Parameters: x+2 , y+2
+	for(int i = 1; i<x-1; i++) {											//Go thru each node and... 
+		for(int j = 1; j < y-1; j++) {									//finalize all borders.
 			maze[i][j].setBorder();
+
 		}
 	}
 }
 
 public void createBoundaries(int x, int y) {
 	//corner box borders
-	maze[0][0] = new Node(x,y,(byte)0b00001111);	//top-left
-	maze[0][y-1] = new Node(x,y,(byte)0b00001111);	//top-right
-	maze[x-1][0] = new Node(x,y,(byte)0b00001111);	//bottom-left
-	maze[x-1][y-1] = new Node(x,y,(byte)0b00001111);	//bottom-right
+	maze[0][0] = new Node(0,0,(byte)0b00001111);	//top-left
+	maze[0][y-1] = new Node(0,y-1,(byte)0b00001111);	//top-right
+	maze[x-1][0] = new Node(x-1,0,(byte)0b00001111);	//bottom-left
+	maze[x-1][y-1] = new Node(x-1,y-1,(byte)0b00001111);	//bottom-right
 
-	//top-side and bottom-side
-	for(int i = 0; i < x; i+=x-1) {
-		for(int j = 1; j<y-1;j++) {
-			maze[i][j] = new Node(i,j,(byte)0b00001010);
-		}
-	}
 	//left-side and right-side
 	for(int i = 1; i < x-1; i++) {
 		for(int j = 0; j < y; j+=y-1) {
-			maze[i][j] = new Node(i,j,(byte)0b00000101);
-			}	
+			maze[i][j] = new Node(i,j,(byte)0b101);
+//			System.out.println("Left and Right (i,j): (" + i +","+ j + ")" + maze[i][j].getBorder());
+		}	
+	}
+	//top-side and bottom-side
+	for(int i = 0; i < x; i+=x-1) {
+		for(int j = 1; j<y-1;j++) {
+			maze[i][j] = new Node(i,j,(byte)0b1010);
+//			System.out.println("Top and Bottom (i,j): (" + i +","+ j + ")" + maze[i][j].getBorder());
 		}
+	}
 	}
 public int nextX(int num) {
 	return pointerX + num;
