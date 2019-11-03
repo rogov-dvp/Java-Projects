@@ -15,69 +15,56 @@ import javax.swing.JPanel;
 
 public class GameStart extends JPanel implements KeyListener, ActionListener{
 //attributes
-	private boolean play = false;		//Game does not start on open
+	private boolean play = false;		
 	
 	private Timer timer;
 	private int delay = 8;
 	//frame size
-	private int width = 1060;
-	private int height = 530;
+//	private int width = 1060;
+//	private int height = 530;
 	
 	//maze
-	private MazeGenerator mazeGen;											//Maze
+	private MazeGenerator maze;										//maze reference
 	//maze dimensions
-	private int mazeX = 10;			//Width						
-	private int mazeY = 10;			//Height 
+	private int mazeX = 10;											//Width	of maze without borders
+	private int mazeY = 10;											//Height of maze without borders
 	
-	//The 4 borders and anchor coordinates:		(100,50)				//for easier changes
-	private int n = 32;		//ball size and jump increments
+	//anchor coordinates:		
+	private int n = 32;												//IMPORTANT. ball pixel size and jump increments
 	private int nCalc = 26;
-	//calculations for ancX and ancY
-	private int calcY1 = (600-(nCalc*(mazeY+2)))/2; 
+	//ancX and ancY
+	private int calcY = (600-(nCalc*(mazeY+2)))/2; 					//calculations for centering
+	private int calcX = (1100-(nCalc*(mazeX+2)))/2; 				//calculations for centering
+	private int ancX = calcX - 100;									//anchor X coordinates
+	private int ancY = calcY - 61;									//anchor Y coordinates
+	private int ancXplus = ancX+n;									//anchor point + n. pixel X coordinates. For convenience use at border attributes
+	private int ancYplus = ancY+n;									//anchor point + n. pixel Y coordinates. For convenience use at border attributes
 	
-	private int ancX = 100;
-	private int ancY = calcY1;
+	//player characters
+	private int playerX = ancX+n;									//playerX pixel location
+	private int playerY = ancY+(n*mazeY)/2+n;						//playerY pixel location	
+	private int coorRow = mazeY/2+1;								//PlayerRow Starting coordinates based on mazeGenerator
+	private int coorCol = 1;										//PlayerCol Starting coordinates based on mazeGenerator
 	
+	//In-game Objects and locations
+	Node finish;													//finish line (coorRow, coorCol: located other side of Maze)		
+	private int ballEndX = ancX+mazeX*n+n/4;
+	private int ballEndY = ancY+(n*mazeY)/2+n/4;
 	
+	//One line is (x1,y1 --> x2,y2). 4 lines to make a box
+	//---------------------------------------------------------------------------------------------------------------
+	//         up-border         |        left-border       |       bottom-border      |        right-border		|
+	private int upX1 = ancX;	 private int rX1 = ancXplus; private int bX1 = ancXplus; private int lX1 = ancX;
+	private int upY1 = ancY; 	 private int rY1 = ancY;	 private int bY1 = ancYplus; private int lY1 = ancYplus;
+	private int upX2 = ancXplus; private int rX2 = ancXplus; private int bX2 = ancX;	 private int lX2 = ancX;
+	private int upY2 = ancY;	 private int rY2 = ancYplus; private int bY2 = ancYplus; private int lY2 = ancY;
+	//---------------------------------------------------------------------------------------------------------------
 	
+
 	
-	
-	private int ancXplus = ancX+n;
-	private int ancYplus = ancY+n;
-	
-	//player character
-	private int playerWidth = ancX+n;											//player row
-	private int playerHeight = 250;											//player column
-	//up-border
-	
-	
-	//up-border
-	private int upX1 = ancX;
-	private int upY1 = ancY;
-	private int upX2 = ancXplus;								
-	private int upY2 = ancY;
-	
-	//right-border
-	private int rX1 = ancXplus;
-	private int rY1 = ancY;
-	private int rX2 = ancXplus;
-	private int rY2 = ancYplus;
-	
-	//bottom-border
-	private int bX1 = ancXplus;
-	private int bY1 = ancYplus;
-	private int bX2 = ancX;
-	private int bY2 = ancYplus;
-	
-	//left-border
-	private int lX1 = ancX; 
-	private int lY1 = ancYplus;
-	private int lX2 = ancX;
-	private int lY2 = ancY;
-		
 ///constructors
 	public GameStart() {
-		mazeGen = new MazeGenerator(mazeX,mazeY);
+		maze = new MazeGenerator(mazeX,mazeY);
 		addKeyListener(this);		
 		setFocusable(true); 					//by default
 		setFocusTraversalKeysEnabled(false);	//tab and shift are disabled	
@@ -86,14 +73,13 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	}
 	
 	public void paint(Graphics g) {
-		try {
 		//background
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0,1100, 600);
 				
 		//character
 		g.setColor(Color.WHITE);
-		g.fillOval(playerWidth,playerHeight,n,n);	//40,300,n,n
+		g.fillOval(playerX,playerY,n,n);	//40,300,n,n
 		
 		//The four borders used
 		g.setColor(Color.YELLOW);
@@ -101,7 +87,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		//Build borders;
 		for(int i = 0; i < mazeY+2; i++) {					//horizontal. x-axis
 			for(int j = 0; j < mazeX+2; j++) {				//vertical. y-axis
-				byte bits =	 (byte) (mazeGen.maze[j][i].getBorder());
+				byte bits =	 (byte) (maze.maze[j][i].getBorder());
 				if((bits&0b1000) == 0b1000)
 				g.drawLine(upX1+n*(i), upY1+n*(j), upX2+n*(i), upY2+n*(j));						//Up border
 				
@@ -115,10 +101,14 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 				g.drawLine(lX1+n*(i), lY1+n*(j), lX2+n*(i), lY2+n*(j));				//Left border
 			}
 		}
-		}catch  (NullPointerException e) {
-			System.out.println(e.toString());
-		} 
-		
+		g.setColor(Color.RED);
+		g.fillOval(ballEndX, ballEndY, n/2, n/2);
+		if(playerX == (ballEndX-n/4) && playerY == (ballEndY-n/4)) {
+			play = false;
+			g.setColor(Color.GREEN);
+			g.setFont(new Font("serif",Font.BOLD, 40));
+			g.drawString("You Win", 400, 50);
+		}
 	}
 	
 //methods	
@@ -130,7 +120,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		timer.start();	
 		//implement array
-
+		
 		repaint();
 	}
 	
@@ -140,39 +130,45 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			System.exit(0);
 			
 		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {	
-			
-			if(playerHeight>0)
-				moveDown();							//Reversed in Height. player pressed up to move Player moves down 
+			if(maze.maze[coorRow][coorCol].getUp() != null )
+				moveUp();							//player moves up 
 		}
 		if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
-			if(playerHeight< height)
-				moveUp();							//player moves up
+			if(maze.maze[coorRow][coorCol].getDown() != null )
+				moveDown();							//player moves down
 		}
 		if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
-			if(playerWidth > 0)
+			if(maze.maze[coorRow][coorCol].getLeft() != null )
 				moveLeft();							//player moves left
 		}
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT ||e.getKeyCode() == KeyEvent.VK_D) {
-			if(playerWidth < width)
+			if(maze.maze[coorRow][coorCol].getRight() != null )
 				moveRight();						//player moves right
 		}
 
 	}
-	public void moveUp() {
-		play = true;
-		playerHeight+=n;
-	}
+	//players move based on 'n' size and direction.
+	//Note: moving down means incrementing and moving up is decrementing
 	public void moveDown() {
 		play = true;
-		playerHeight-=n;						//Player moves down 
+		coorRow++;
+		playerY+=n;		
+		
+	}
+	public void moveUp() {
+		play = true;
+		coorRow--;
+		playerY-=n;						
 	}
 	public void moveLeft() {
 		play = true;
-		playerWidth-=n;						//player moves left
+		coorCol--;
+		playerX-=n;						
 	}
 	public void moveRight() {
 		play = true;
-		playerWidth+=n;							//player moves right
+		coorCol++;
+		playerX+=n;							
 	}
 
 }
