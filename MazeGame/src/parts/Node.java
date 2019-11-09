@@ -35,13 +35,13 @@ public class Node {
 	private int y;
 	private byte border;			 //Binary value dictates what type of border it is.
 	private Node next;				 //For Stack
-
+	
 	//links from node
 	private Node up;
 	private Node right;
 	private Node down;
 	private Node left;
-	
+	private boolean isBorder = false;
 	
 //constructors	
 	public Node(int x, int y) {
@@ -52,6 +52,7 @@ public class Node {
 	public Node(int x, int y, byte bin) {					//When creating borders, use (5,10,15)
 		this.x = x;
 		this.y = y;
+		isBorder = true;
 		switch(bin) {					
 		case 5:  border = 0b101;		//(5)  0000 0101, vertical passage border (used in left/right side)
 			break;
@@ -67,7 +68,7 @@ public class Node {
 		return border;
 	}
 //Set border value; Should be used only when all 4 sides are not null(this is checked in stack)
-	public void setBorder() {				
+	public void setBorder() {	
 		byte sum = 0b00000000;
 		if(up == null)
 			sum|=0b1000;
@@ -121,18 +122,9 @@ public class Node {
 	public void setNext(Node N) {
 		next = N;
 	}
-//return boolean
-	public boolean isUpNull() {
-		return (up == null)?true:false;
-	}
-	public boolean isRightNull() {
-		return (right == null)?true:false;	
-	}
-	public boolean isDownNull() {
-		return (down == null)?true:false;
-	}
-	public boolean isLeftNull() {
-		return (left == null)?true:false;
+// set and get border
+	public boolean isBorder() {
+		return isBorder;
 	}
 
 }

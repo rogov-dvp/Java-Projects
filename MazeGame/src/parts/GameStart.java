@@ -175,7 +175,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		Area a1 = new Area(new Rectangle2D.Double(0, 0, 1100, 600)); 							//grey screen around 
 //		Area a2 = new Area(new Rectangle2D.Double(playerX-120/2, playerY-120/2, n*3, n*3)); 		//spotlight around player
 		Area a3 = new Area(new Ellipse2D.Double(ballEndX-30, ballEndY-30, 75, 75));				//spotlight around finish line
-		Area p = new Area(new Rectangle2D.Double(playerX,playerY,N+2,N+2)); 
+		Area p = new Area(new Rectangle2D.Double(playerX,playerY,N+1,N+1)); 
 //		a1.subtract(a2);
 		a1.subtract(p);		//Player is always visible
 		
@@ -189,7 +189,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 								
 				//up
 				if(validUp && maze.maze[coorRow-j][coorCol].getUp() != null) {
-					Area out = new Area(new Rectangle2D.Double(playerX,playerY-(j+1)*N,N+2,N+2));
+					Area out = new Area(new Rectangle2D.Double(playerX,playerY-(j+1)*N,N+1,N+1));
 					a1.subtract(out);
 				} else {
 					validUp = false;
@@ -197,21 +197,21 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 				
 				//right
 				if(validRight && maze.maze[coorRow][coorCol+j].getRight() != null) {
-					Area out = new Area(new Rectangle2D.Double(playerX+(j+1)*N,playerY,N+2,N+2));
+					Area out = new Area(new Rectangle2D.Double(playerX+(j+1)*N,playerY,N+1,N+1));
 					a1.subtract(out);
 				} else {
 					validRight = false;
 				}
 				//down
 				if(validDown && maze.maze[coorRow+j][coorCol].getDown() != null) {
-					Area out = new Area(new Rectangle2D.Double(playerX,playerY+(j+1)*N,N+2,N+2));
+					Area out = new Area(new Rectangle2D.Double(playerX,playerY+(j+1)*N,N+1,N+1));
 					a1.subtract(out);
 				} else {
 					validDown = false;
 				}
 				//left
 				if(validLeft && maze.maze[coorRow][coorCol-j].getLeft() != null) {						
-					Area out = new Area(new Rectangle2D.Double(playerX-(j+1)*N,playerY,N+2,N+2));
+					Area out = new Area(new Rectangle2D.Double(playerX-(j+1)*N,playerY,N+1,N+1));
 					a1.subtract(out);
 				} else {
 					validLeft = false;
@@ -270,7 +270,8 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) 	//exit game. maybe give a prompt
 			System.exit(0);
-			
+		if(e.getKeyCode() == KeyEvent.VK_V)
+			visibility = !visibility;
 		if(e.getKeyCode() == KeyEvent.VK_UP) {	
 			if(maze.maze[coorRow][coorCol].getUp() != null && play == true)
 				moveUp();							//player moves up 

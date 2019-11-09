@@ -109,8 +109,29 @@ public void createMaze(int x, int y) {
 public void setInnerBorders(int x, int y) {								//Parameters: x+2 , y+2
 	for(int i = 1; i<x-1; i++) {											//Go thru each node and... 
 		for(int j = 1; j < y-1; j++) {									//finalize all borders.
-			maze[i][j].setBorder();
+			
+			if((int)(Math.random()*10) < 2) {							//20% chance to one random opening in a node
+				int	rand = (int)(Math.random()*4);						//chooses direction
+			if(rand == 0 && !maze[i-1][j].isBorder()) {
+				maze[i][j].setUp(maze[i-1][j]);
+				maze[i-1][j].setDown(maze[i][j]);
+			} else if (rand == 1 && !maze[i][j+1].isBorder()) {
+				maze[i][j].setRight(maze[i][j+1]);
+				maze[i][j+1].setLeft(maze[i][j]);
+			}else if (rand == 2 && !maze[i+1][j].isBorder()) {
+				maze[i][j].setDown(maze[i+1][j]);
+				maze[i+1][j].setUp(maze[i][j]);
+			} else if(rand == 4 && !maze[i][j-1].isBorder()) {
+				maze[i][j].setLeft(maze[i][j-1]);
+				maze[i][j-1].setRight(maze[i][j]);
+			}
+			}
 
+		}
+	}
+	for(int i = 1; i <x-1; i++) {
+		for(int j = 1; j < y-1; j++) {			
+			maze[i][j].setBorder();
 		}
 	}
 }
