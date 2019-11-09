@@ -23,46 +23,52 @@ British Columbia, Canada
 email: alexrogov182@gmail.com	
 */
 public class GameStart extends JPanel implements KeyListener, ActionListener{
+	//final variables:
+	//frame size
+	private final int FRAMEWIDTH = 1100;
+	private final int FRAMEHEIGHT = 600;
+	//dimensions
+	private final int N = 32;
+	private final int MAX_BLOCK_VISIBILITY = 3;								//Max blocks a character can see ahead
+	private final int MAZEX = 14;
+	private final int MAZEY = 14;
+	private final int COORROW = MAZEY/2+1;
+	private final int COORCOL = 1;
+	
 //attributes
 	private boolean play = false;		//Must press Enter to begin	
 	private int counter = 0;			//Based on counter, Used for starting page, reseting.
 	private Timer timer;
 	private int delay = 8;
 	
-	//frame size
-	private int frameWidth = 1100;
-	private int frameHeight = 600;
 	
 	//maze & dimensions
 	private MazeGenerator maze;										//maze reference
-	private int mazeX = 14;											//Width	of maze without borders
-	private int mazeY = 14;											//Height of maze without borders
 	
 	//anchor coordinates:		
-	private int n = 32;												//IMPORTANT. ball pixel size and jump increments
 	private int nCalc = 26;
 	//ancX and ancY
-	private int calcY = (600-(nCalc*(mazeY+2)))/2; 					//calculations for centering
-	private int calcX = (1100-(nCalc*(mazeX+2)))/2; 				//calculations for centering
+	private int calcY = (600-(nCalc*(MAZEY+2)))/2; 					//calculations for centering
+	private int calcX = (1100-(nCalc*(MAZEX+2)))/2; 				//calculations for centering
 	private int ancX = calcX - 100;									//anchor X coordinates
 	private int ancY = calcY - 61;									//anchor Y coordinates
-	private int ancXplus = ancX+n;									//anchor point + n. pixel X coordinates. For convenience use at border attributes
-	private int ancYplus = ancY+n;									//anchor point + n. pixel Y coordinates. For convenience use at border attributes
+	private int ancXplus = ancX+N;									//anchor point + n. pixel X coordinates. For convenience use at border attributes
+	private int ancYplus = ancY+N;									//anchor point + n. pixel Y coordinates. For convenience use at border attributes
 	
 	//player characters
-	private int playerX = ancX+n;									//playerX pixel location
-	private int playerY = ancY+(n*mazeY)/2+n;						//playerY pixel location	
-	private int coorRow = mazeY/2+1;								//PlayerRow Starting coordinates based on mazeGenerator
-	private int coorCol = 1;										//PlayerCol Starting coordinates based on mazeGenerator
+	private final int PLAYERX = ancX+N;
+	private final int PLAYERY = ancY+(N*MAZEY)/2+N;
+	private int playerX = PLAYERX;									//playerX pixel location
+	private int playerY = PLAYERY;						//playerY pixel location	
+	private int coorRow = COORROW;								//PlayerRow coordinates
+	private int coorCol = COORCOL;										//PlayerCol coordinates
 	
 	//In-game Objects and locations
-	Node finish;													//finish line (coorRow, coorCol: located other side of Maze)		
-	private int ballEndX = ancX+mazeX*n+n/4;
-	private int ballEndY = ancY+(n*mazeY)/2+n/4;
+	private int ballEndX = ancX+MAZEX*N+N/4;
+	private int ballEndY = ancY+(N*MAZEY)/2+N/4 +N;
 	private boolean visibility = false;
-	
+		
 	//win string coordinates if no reduced visibility
-	
 	private int winStringX = 320; 
 	private int winStringY = 225;
 	private int restartStringX = 260;
@@ -81,7 +87,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	
 ///constructors
 	public GameStart() {
-		maze = new MazeGenerator(mazeX,mazeY);
+		maze = new MazeGenerator(MAZEX,MAZEY);
 		addKeyListener(this);		
 		setFocusable(true); 					//by default
 		setFocusTraversalKeysEnabled(false);	//tab and shift are disabled	
@@ -102,85 +108,138 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(!play && counter == 0) {	
 			//start background 
 			g.setColor(startColor);
-			g.fillRect(0, 0, frameWidth, frameHeight);
+			g.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
 			//title
 			g.setColor(titleColor);
 			g.setFont(new Font(font,Font.BOLD, 50));
-			g.drawString("Malzar's Maze", (int)(frameWidth/3), (int)(frameHeight/3)); 
+			g.drawString("Malzar's Maze", (int)(FRAMEWIDTH/3), (int)(FRAMEHEIGHT/3)); 
 			
 			g.setColor(enterColor);
 			g.setFont(new Font(font,Font.CENTER_BASELINE,36));
-			g.drawString("Press Enter", (int)(frameWidth/3.2)+84, (int)(frameHeight/3)+80);
+			g.drawString("Press Enter", (int)(FRAMEWIDTH/3.2)+84, (int)(FRAMEHEIGHT/3)+80);
 			
 		//options page 1: Want visibility?
 		} else if(!play && counter==1) {	
 			//background
 			g.setColor(optionsColor);
-			g.fillRect(0,0,frameWidth,frameHeight);
+			g.fillRect(0,0,FRAMEWIDTH,FRAMEHEIGHT);
 			//title
 			g.setColor(titleColor);
 			g.setFont(new Font(font,Font.BOLD, 50));
-			g.drawString("Options", (int)(frameWidth/3)+60, (int)(frameHeight/3)); 
+			g.drawString("Options", (int)(FRAMEWIDTH/3)+60, (int)(FRAMEHEIGHT/3)); 
 			//Asks if want reduced visibility
 			g.setColor(titleColor);
 			g.setFont(new Font(font,Font.BOLD, 25));
-			g.drawString("- Reduce Visiblity:", (int)(frameWidth/3)+70, (int)(frameHeight/3)+75); 
+			g.drawString("- Reduce Visiblity:", (int)(FRAMEWIDTH/3)+70, (int)(FRAMEHEIGHT/3)+75); 
 			//1 = yes, 2 = no
 			g.setColor(titleColor);
 			g.setFont(new Font(font,Font.BOLD, 25));
-			g.drawString("1 = Yes", (int)(frameWidth/3)+70, (int)(frameHeight/3)+150); 
+			g.drawString("1 = Yes", (int)(FRAMEWIDTH/3)+70, (int)(FRAMEHEIGHT/3)+150); 
 			g.setColor(titleColor);
 			g.setFont(new Font(font,Font.BOLD, 25));
-			g.drawString("2 = No", (int)(frameWidth/3)+180, (int)(frameHeight/3)+150); 
+			g.drawString("2 = No", (int)(FRAMEWIDTH/3)+180, (int)(FRAMEHEIGHT/3)+150); 
 
 			
 			
 		} else {
-		//background
+		//Maze Background
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0,frameWidth, frameHeight);
+		g.fillRect(0, 0,FRAMEWIDTH, FRAMEHEIGHT);
 				
 		//character
 		g.setColor(startColor);				//Color.WHITE also good
-		g.fillOval(playerX,playerY,n,n);	//40,300,n,n
+		g.fillOval(playerX,playerY,N,N);	
 		
 		//Build borders | up,right,bottom,left
 		g.setColor(Color.YELLOW);
-		for(int i = 0; i < mazeY+2; i++) {					//horizontal. x-axis
-			for(int j = 0; j < mazeX+2; j++) {				//vertical. y-axis
+		for(int i = 0; i < MAZEY+2; i++) {					//horizontal. x-axis
+			for(int j = 0; j < MAZEX+2; j++) {				//vertical. y-axis
 				byte bits =	 (byte) (maze.maze[j][i].getBorder());
 				if((bits&0b1000) == 0b1000)
-				g.drawLine(upX1+n*(i), upY1+n*(j), upX2+n*(i), upY2+n*(j));						//Up border
+				g.drawLine(upX1+N*(i), upY1+N*(j), upX2+N*(i), upY2+N*(j));						//Up border
 				
 				if((bits&0b100) == 0b100)
-				g.drawLine(rX1+n*(i), rY1+n*(j), rX2+n*(i), rY2+n*(j));							//Right border
+				g.drawLine(rX1+N*(i), rY1+N*(j), rX2+N*(i), rY2+N*(j));							//Right border
 				
 				if((bits&0b10) == 0b10)
-				g.drawLine(bX1+n*(i), bY1+n*(j), bX2+n*(i), bY2+n*(j));							//Bottom border
+				g.drawLine(bX1+N*(i), bY1+N*(j), bX2+N*(i), bY2+N*(j));							//Bottom border
 		
 				if((bits&0b1) == 0b1)
-				g.drawLine(lX1+n*(i), lY1+n*(j), lX2+n*(i), lY2+n*(j));				//Left border
+				g.drawLine(lX1+N*(i), lY1+N*(j), lX2+N*(i), lY2+N*(j));				//Left border
 			}
 		}
+		
 		//Reduce visibility
 		if(visibility) { 
 		g.setColor(Color.DARK_GRAY);
-		Area a1 = new Area(new Rectangle2D.Double(0, 0, 1100, 600)); 
-		Area a3 = new Area(new Ellipse2D.Double(ballEndX-30, ballEndY-30, 75, 75));
-		Area a2 = new Area(new Ellipse2D.Double(playerX-120/2, playerY-120/2, 150, 150)); 
-		a1.subtract(a2);	//subtract player ball circle from Rect
+		Area a1 = new Area(new Rectangle2D.Double(0, 0, 1100, 600)); 							//grey screen around 
+//		Area a2 = new Area(new Rectangle2D.Double(playerX-120/2, playerY-120/2, n*3, n*3)); 		//spotlight around player
+		Area a3 = new Area(new Ellipse2D.Double(ballEndX-30, ballEndY-30, 75, 75));				//spotlight around finish line
+		Area p = new Area(new Rectangle2D.Double(playerX,playerY,N+2,N+2)); 
+//		a1.subtract(a2);
+		a1.subtract(p);		//Player is always visible
+		
+		boolean validUp = true;
+		boolean validRight = true;
+		boolean validDown = true;
+		boolean validLeft = true;
+		//subtracting boxing around player based on walls, i = 0 up |i = 1 right | i = 2 down | i = 3 left 
+		for(int i = 0; i < 4; i++) {			//direction
+			for(int j = 0; j<MAX_BLOCK_VISIBILITY; j++) {			//# of blocks
+								
+				//up
+				if(validUp && maze.maze[coorRow-j][coorCol].getUp() != null) {
+					Area out = new Area(new Rectangle2D.Double(playerX,playerY-(j+1)*N,N+2,N+2));
+					a1.subtract(out);
+				} else {
+					validUp = false;
+				}
+				
+				//right
+				if(validRight && maze.maze[coorRow][coorCol+j].getRight() != null) {
+					Area out = new Area(new Rectangle2D.Double(playerX+(j+1)*N,playerY,N+2,N+2));
+					a1.subtract(out);
+				} else {
+					validRight = false;
+				}
+				//down
+				if(validDown && maze.maze[coorRow+j][coorCol].getDown() != null) {
+					Area out = new Area(new Rectangle2D.Double(playerX,playerY+(j+1)*N,N+2,N+2));
+					a1.subtract(out);
+				} else {
+					validDown = false;
+				}
+				//left
+				if(validLeft && maze.maze[coorRow][coorCol-j].getLeft() != null) {						
+					Area out = new Area(new Rectangle2D.Double(playerX-(j+1)*N,playerY,N+2,N+2));
+					a1.subtract(out);
+				} else {
+					validLeft = false;
+				}
+				
+			}
+			validUp = true;
+			validRight = true;
+			validDown = true;
+			validLeft = true;
+		}
+		
+		
+//		a1.subtract(a2);	//subtract player ball circle from Rect
 		a1.subtract(a3);	//subtract finish line circle from Rect
 		g2d.fill(a1);
 		} else {
-		//finish line ball. Place AFTER visibility reducer
 		winStringX = 820;
 		winStringY = ballEndY-15;
 		restartStringX = 765;
 		restartStringY = ballEndY+35;
 		}
+		//character visibility
+		
+		//finish line ball. Place AFTER visibility reducer
 		g.setColor(Color.RED);
-		g.fillOval(ballEndX, ballEndY, n/2, n/2);
-		if(playerX == (ballEndX-n/4) && playerY == (ballEndY-n/4)) {
+		g.fillOval(ballEndX, ballEndY, N/2, N/2);
+		if(playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4)) {
 			g.setColor(winColor);
 			g.setFont(new Font(font,Font.BOLD, 45));
 			g.drawString("You Win", winStringX, winStringY);
@@ -189,7 +248,6 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			g.setFont(new Font(font,Font.CENTER_BASELINE,30));
 			g.drawString("Press Enter to restart", restartStringX, restartStringY);
 		}
-		
 		}
 	}
 	
@@ -202,12 +260,9 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		timer.start();	
 		//implement array
-		if(playerX == (ballEndX-n/4) && playerY == (ballEndY-n/4)) {
-			//sleeper time?
+		if(playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4)) {
 			play = false;
 		}
-		
-		
 		repaint();
 	}
 	
@@ -216,19 +271,19 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) 	//exit game. maybe give a prompt
 			System.exit(0);
 			
-		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {	
+		if(e.getKeyCode() == KeyEvent.VK_UP) {	
 			if(maze.maze[coorRow][coorCol].getUp() != null && play == true)
 				moveUp();							//player moves up 
 		}
-		if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
+		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
 			if(maze.maze[coorRow][coorCol].getDown() != null && play == true)
 				moveDown();							//player moves down
 		}
-		if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
+		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 			if(maze.maze[coorRow][coorCol].getLeft() != null && play == true)
 				moveLeft();							//player moves left
 		}
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT ||e.getKeyCode() == KeyEvent.VK_D) {
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			if(maze.maze[coorRow][coorCol].getRight() != null && play == true)
 				moveRight();						//player moves right
 		}
@@ -253,17 +308,14 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			case 0:					//Leaves title page
 				counter++;
 				break;
-//			case 1:
-//				play = true;
-//				counter++;
-//				break;
 			case 2:					//regenerate maze
 				if(!play) {
-					counter = 0;
-					maze = new MazeGenerator(mazeX,mazeY);
+					coorRow = COORROW;
+					coorCol = COORCOL;
+					playerX = PLAYERX;									//playerX pixel location
+					playerY = PLAYERY;						//playerY pixel location						
+					maze = new MazeGenerator(MAZEX,MAZEY);
 					play = true;
-					playerX = ancX+n;									//playerX pixel location
-					playerY = ancY+(n*mazeY)/2+n;						//playerY pixel location	
 					repaint();
 				}
 				break;
@@ -276,19 +328,19 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	//Note: moving down means incrementing and moving up is decrementing
 	public void moveDown() {
 		coorRow++;
-		playerY+=n;		
+		playerY+=N;		
 	}
 	public void moveUp() {
 		coorRow--;
-		playerY-=n;						
+		playerY-=N;						
 	}
 	public void moveLeft() {
 		coorCol--;
-		playerX-=n;						
+		playerX-=N;						
 	}
 	public void moveRight() {
 		coorCol++;
-		playerX+=n;							
+		playerX+=N;							
 	}
 
 }
