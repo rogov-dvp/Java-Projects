@@ -23,17 +23,18 @@ British Columbia, Canada
 email: alexrogov182@gmail.com	
 */
 public class GameStart extends JPanel implements KeyListener, ActionListener{
-	//final variables:
+	//Constant Variables:
 	//frame size
 	private final int FRAMEWIDTH = 1100;
 	private final int FRAMEHEIGHT = 600;
 	//dimensions
 	private final int N = 32;
-	private final int MAX_BLOCK_VISIBILITY = 3;								//Max blocks a character can see ahead
-	private final int MAZEX = 14;
-	private final int MAZEY = 14;
-	private final int COORROW = MAZEY/2+1;
-	private final int COORCOL = 1;
+	private final int MAX_BLOCK_VISIBILITY = 3;								
+	//Maze size, 2D-array coordinates of player
+	private final int MAZEX = 14;											
+	private final int MAZEY = 14;											
+	private final int COORROW = MAZEY/2+1;									
+	private final int COORCOL = 1;											
 	
 //attributes
 	private boolean play = false;		//Must press Enter to begin	
@@ -59,9 +60,9 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private final int PLAYERX = ancX+N;
 	private final int PLAYERY = ancY+(N*MAZEY)/2+N;
 	private int playerX = PLAYERX;									//playerX pixel location
-	private int playerY = PLAYERY;						//playerY pixel location	
-	private int coorRow = COORROW;								//PlayerRow coordinates
-	private int coorCol = COORCOL;										//PlayerCol coordinates
+	private int playerY = PLAYERY;									//playerY pixel location	
+	private int coorRow = COORROW;									//PlayerRow coordinates
+	private int coorCol = COORCOL;									//PlayerCol coordinates
 	
 	//In-game Objects and locations
 	private int ballEndX = ancX+MAZEX*N+N/4;
@@ -83,7 +84,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int upY2 = ancY;	 private int rY2 = ancYplus; private int bY2 = ancYplus; private int lY2 = ancY;
 	//---------------------------------------------------------------------------------------------------------------
 	
-
+	
 	
 ///constructors
 	public GameStart() {
@@ -173,10 +174,8 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(visibility) { 
 		g.setColor(Color.DARK_GRAY);
 		Area a1 = new Area(new Rectangle2D.Double(0, 0, 1100, 600)); 							//grey screen around 
-//		Area a2 = new Area(new Rectangle2D.Double(playerX-120/2, playerY-120/2, n*3, n*3)); 		//spotlight around player
 		Area a3 = new Area(new Ellipse2D.Double(ballEndX-30, ballEndY-30, 75, 75));				//spotlight around finish line
 		Area p = new Area(new Rectangle2D.Double(playerX,playerY,N+1,N+1)); 
-//		a1.subtract(a2);
 		a1.subtract(p);		//Player is always visible
 		
 		boolean validUp = true;
@@ -194,7 +193,6 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 				} else {
 					validUp = false;
 				}
-				
 				//right
 				if(validRight && maze.maze[coorRow][coorCol+j].getRight() != null) {
 					Area out = new Area(new Rectangle2D.Double(playerX+(j+1)*N,playerY,N+1,N+1));
@@ -253,9 +251,9 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	
 //methods	
 	@Override
-	public void keyReleased(KeyEvent arg0) {}
+	public void keyReleased(KeyEvent e) {}
 	@Override
-	public void keyTyped(KeyEvent arg0) {}
+	public void keyTyped(KeyEvent e) {}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		timer.start();	
@@ -303,6 +301,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			}
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			System.out.println(timer.isRunning());
 			System.out.println(counter);
 			System.out.println(play);
 			switch(counter) {		//Changes screens or restarts game

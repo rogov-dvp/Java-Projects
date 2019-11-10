@@ -164,6 +164,8 @@ public int nextX(int num) {
 public int nextY(int num) {
 	return pointerY + num;
 }
-
+public Node[][] getMaze() {
+	return maze;
+}
 }
 
