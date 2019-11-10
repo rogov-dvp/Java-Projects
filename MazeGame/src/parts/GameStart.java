@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 Game: Mazlzahar's Maze (Maze with more features such as less visibility, collect keys, have "monsters" chasing)
 Developer: Alex Rogov
 British Columbia, Canada
-email: alexrogov182@gmail.com	
+email: alexandre.rogov@gmail.com	
 */
 public class GameStart extends JPanel implements KeyListener, ActionListener{
 	//Constant Variables:
@@ -64,11 +64,18 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int coorRow = COORROW;									//PlayerRow coordinates
 	private int coorCol = COORCOL;									//PlayerCol coordinates
 	
+	//Minotaur
+	private int minoX = PLAYERX;
+	private int minoY = PLAYERY;
+	private int minoRow = COORROW;
+	private int minoCol = COORCOL;
+	private boolean active = false;
+	
 	//In-game Objects and locations
 	private int ballEndX = ancX+MAZEX*N+N/4;
 	private int ballEndY = ancY+(N*MAZEY)/2+N/4 +N;
 	private boolean visibility = false;
-		
+	
 	//win string coordinates if no reduced visibility
 	private int winStringX = 320; 
 	private int winStringY = 225;
@@ -88,7 +95,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	
 ///constructors
 	public GameStart() {
-		maze = new MazeGenerator(MAZEX,MAZEY);
+		maze = new MazeGenerator(MAZEX,MAZEY);		//generates maze
 		addKeyListener(this);		
 		setFocusable(true); 					//by default
 		setFocusTraversalKeysEnabled(false);	//tab and shift are disabled	
@@ -170,6 +177,11 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			}
 		}
 		
+		//Minotaur
+		if(active) {
+		g.setColor(Color.RED);
+		g.fillOval(minoX, minoY, N, N);
+		}
 		//Reduce visibility
 		if(visibility) { 
 		g.setColor(Color.DARK_GRAY);
@@ -223,7 +235,6 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		}
 		
 		
-//		a1.subtract(a2);	//subtract player ball circle from Rect
 		a1.subtract(a3);	//subtract finish line circle from Rect
 		g2d.fill(a1);
 		} else {
@@ -261,6 +272,12 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4)) {
 			play = false;
 		}
+		if(coorCol > MAZEX/3) {
+			new Minotaur(minoRow,minoCol,coorRow,coorCol,maze.maze);	//generates path for minotaur
+			active = true;
+		}
+
+		
 		repaint();
 	}
 	
@@ -301,9 +318,6 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			}
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-			System.out.println(timer.isRunning());
-			System.out.println(counter);
-			System.out.println(play);
 			switch(counter) {		//Changes screens or restarts game
 			case 0:					//Leaves title page
 				counter++;

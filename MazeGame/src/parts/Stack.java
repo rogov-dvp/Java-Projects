@@ -6,6 +6,8 @@ public class Stack{
 		top.setNext(N);
 		N.setNext(null);
 	}
+	Stack() {
+	}
 	
 	public void add(Node N) {				//Add node to stack
 		if(top.getNext() == null) {
@@ -37,5 +39,8 @@ public class Stack{
 		}
 		
 	}
-
+	public boolean isEmpty() {
+		return (top.getNext() == null)?true:false;
+	}
+	
 }

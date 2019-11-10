@@ -43,6 +43,11 @@ public class Node {
 	private Node left;
 	private boolean isBorder = false;
 	
+	//pathFinder attributes:
+	private boolean visited = false;
+	private int counter;
+	private boolean selected = false;
+	
 //constructors	
 	public Node(int x, int y) {
 		this.x = x;
@@ -126,5 +131,24 @@ public class Node {
 	public boolean isBorder() {
 		return isBorder;
 	}
-
+//pathFinder
+	public boolean isVisited() {
+		return visited;
+	}
+	public void setVisited(boolean visited) {
+		this.visited = visited;
+	}
+	public int getCounter() {
+		return counter;
+	}
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+	public boolean isSelected() {
+		return selected;
+	}
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+	
 }
