@@ -45,7 +45,7 @@ public class Node {
 	
 	//pathFinder attributes:
 	private boolean visited = false;
-	private int counter;
+	private int counter = 0;;
 	private boolean selected = false;
 	
 //constructors	
@@ -138,12 +138,14 @@ public class Node {
 	public void setVisited(boolean visited) {
 		this.visited = visited;
 	}
+	//counter
 	public int getCounter() {
 		return counter;
 	}
 	public void setCounter(int counter) {
 		this.counter = counter;
 	}
+	//selected path for minotaur to take
 	public boolean isSelected() {
 		return selected;
 	}

@@ -10,7 +10,7 @@ public class QueuePath {
 	}
 	
 	public void enqueue(Node N) {
-		if(tail == null) {				//<1 Node in queue
+		if(counter <= 0) {				//<1 Node in queue
 			tail.setNext(N);
 			top.setNext(N);
 		} else if (counter==1) {		//1 Node in queue
@@ -20,6 +20,7 @@ public class QueuePath {
 			N.setNext(tail.getNext());
 			tail.setNext(N);
 		}
+		System.out.println("queued: (" + N.getX() + "," + N.getY() + ") , " + N);
 		counter++;
 	}
 	public Node dequeue() {
@@ -41,5 +42,17 @@ public class QueuePath {
 			counter--;
 			return temp;
 		}
+	}
+	
+	public Node peek() {
+		if(top == null) {
+		System.out.println("Queue is empty");
+		return null;
+		} else 
+			return top.getNext();
+	}
+	public void makeEmpty() {
+		top.setNext(null);
+		tail.setNext(null);
 	}
 }

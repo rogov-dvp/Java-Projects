@@ -37,7 +37,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private final int COORCOL = 1;											
 	
 //attributes
-	private boolean play = false;		//Must press Enter to begin	
+	public static boolean play = false;		//Must press Enter to begin	
 	private int counter = 0;			//Based on counter, Used for starting page, reseting.
 	private Timer timer;
 	private int delay = 8;
@@ -272,10 +272,11 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4)) {
 			play = false;
 		}
-		if(coorCol > MAZEX/3) {
-			new Minotaur(minoRow,minoCol,coorRow,coorCol,maze.maze);	//generates path for minotaur
-			active = true;
-		}
+		timer.start();
+		
+		System.out.println(timer.getLogTimers());
+		
+
 
 		
 		repaint();
@@ -290,18 +291,22 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(e.getKeyCode() == KeyEvent.VK_UP) {	
 			if(maze.maze[coorRow][coorCol].getUp() != null && play == true)
 				moveUp();							//player moves up 
+				activateMino();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
 			if(maze.maze[coorRow][coorCol].getDown() != null && play == true)
 				moveDown();							//player moves down
+				activateMino();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 			if(maze.maze[coorRow][coorCol].getLeft() != null && play == true)
 				moveLeft();							//player moves left
+				activateMino();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			if(maze.maze[coorRow][coorCol].getRight() != null && play == true)
 				moveRight();						//player moves right
+				activateMino();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_1) {
 			if(counter==1) {
@@ -356,5 +361,10 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		coorCol++;
 		playerX+=N;							
 	}
-
+	public void activateMino() {
+		if(coorCol > MAZEX/4 || active) {
+			new Minotaur(minoRow,minoCol,coorRow,coorCol,maze.maze);	//generates closest path from minotaur to player 
+			active = true;
+		}
+	}
 }
