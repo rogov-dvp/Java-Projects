@@ -1,6 +1,6 @@
 package parts;
-
 import javax.swing.JFrame;
+
 
 public class Main {
 	public static void main(String[] args) {
@@ -14,6 +14,5 @@ public class Main {
 	obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//Stops the game when window is closed
 
 	obj.add(gamePlay);
-
 	}
 }

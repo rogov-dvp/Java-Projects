@@ -20,7 +20,7 @@ public class QueuePath {
 			N.setNext(tail.getNext());
 			tail.setNext(N);
 		}
-		System.out.println("queued: (" + N.getX() + "," + N.getY() + ") , " + N);
+//		System.out.println("queued: (" + N.getX() + "," + N.getY() + ") , " + N);
 		counter++;
 	}
 	public Node dequeue() {

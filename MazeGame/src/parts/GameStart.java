@@ -11,6 +11,9 @@ import java.awt.event.KeyListener;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 //
 import javax.swing.Timer;
@@ -41,7 +44,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int counter = 0;			//Based on counter, Used for starting page, reseting.
 	private Timer timer;
 	private int delay = 8;
-	
+	private int counterTimer = 0;
 	
 	//maze & dimensions
 	private MazeGenerator maze;										//maze reference
@@ -65,8 +68,8 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int coorCol = COORCOL;									//PlayerCol coordinates
 	
 	//Minotaur
-	private int minoX = PLAYERX;
-	private int minoY = PLAYERY;
+	private int minoX = PLAYERX;									//References Columns
+	private int minoY = PLAYERY;									//References Rows
 	private int minoRow = COORROW;
 	private int minoCol = COORCOL;
 	private boolean active = false;
@@ -91,7 +94,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int upY2 = ancY;	 private int rY2 = ancYplus; private int bY2 = ancYplus; private int lY2 = ancY;
 	//---------------------------------------------------------------------------------------------------------------
 	
-	
+	Timer timer1;
 	
 ///constructors
 	public GameStart() {
@@ -100,6 +103,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		setFocusable(true); 					//by default
 		setFocusTraversalKeysEnabled(false);	//tab and shift are disabled	
 		timer = new Timer(delay, this);
+		timer1 = new Timer(1000, this);
 		timer.start();
 	}
 	
@@ -181,6 +185,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(active) {
 		g.setColor(Color.RED);
 		g.fillOval(minoX, minoY, N, N);
+		
 		}
 		//Reduce visibility
 		if(visibility) { 
@@ -268,16 +273,58 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		timer.start();	
-		//implement array
-		if(playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4)) {
+		//If player is at finish ball location. Stop game.
+		if((playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4))) {
 			play = false;
+			active = false;
 		}
-		timer.start();
+		if((coorRow == minoRow && coorCol==minoCol && active)) {
+			play = false;
+			active = false;			
+		}
 		
-		System.out.println(timer.getLogTimers());
-		
-
-
+		//code for having the Minotaur chase
+		//Player has to move from starting position for counter to start
+		counterTimer++;
+		if(((coorRow > 10 || coorRow < 6) || coorCol > 3) && play && counterTimer >=70) {
+			active = true;			
+			ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);		
+			Runnable runPath = new Runnable() {
+			    public void run() {
+			new Minotaur(minoRow,minoCol,coorRow,coorCol,maze.maze);
+			System.out.println("PlayerRow,PlayerCol: "+coorRow+" , "+coorCol);
+			System.out.print("Mino current: (" + minoRow + "," + minoCol +")  |  ");
+			if(maze.maze[minoRow][minoCol].getUp() != null && maze.maze[minoRow][minoCol].getUp().isSelected()) {
+				minoRow--;
+				minoY -= N;
+				System.out.println("Mino goes Up: (" + minoRow + "," + minoCol +")");
+			} else if(maze.maze[minoRow][minoCol].getRight() != null && maze.maze[minoRow][minoCol].getRight().isSelected()) {
+				minoCol++;
+				minoX += N;
+				System.out.println("Mino goes Right: (" + minoRow + "," + minoCol +")");
+			} else if(maze.maze[minoRow][minoCol].getDown() != null && maze.maze[minoRow][minoCol].getDown().isSelected()) {
+				minoRow++;
+				minoY += N;
+				System.out.println("Mino goes Down: (" + minoRow + "," + minoCol +")");
+			}else if(maze.maze[minoRow][minoCol].getLeft() != null && maze.maze[minoRow][minoCol].getLeft().isSelected()) {
+				minoCol--;	
+				minoX -= N;
+				System.out.println("Mino goes Left: (" + minoRow + "," + minoCol +")");
+			} else {
+				System.out.println("null");
+			}
+			System.out.println();
+				}
+			};
+			
+			executor.schedule(runPath,0, TimeUnit.SECONDS);
+			executor.shutdown();
+			counterTimer=0;
+		}
+		if(counterTimer >= 70) {
+			System.out.println("reset timer =======================================");
+			counterTimer = 0;
+		}
 		
 		repaint();
 	}
@@ -289,24 +336,21 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(e.getKeyCode() == KeyEvent.VK_V)
 			visibility = !visibility;
 		if(e.getKeyCode() == KeyEvent.VK_UP) {	
+			System.out.println(play);
 			if(maze.maze[coorRow][coorCol].getUp() != null && play == true)
 				moveUp();							//player moves up 
-				activateMino();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
 			if(maze.maze[coorRow][coorCol].getDown() != null && play == true)
 				moveDown();							//player moves down
-				activateMino();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 			if(maze.maze[coorRow][coorCol].getLeft() != null && play == true)
 				moveLeft();							//player moves left
-				activateMino();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			if(maze.maze[coorRow][coorCol].getRight() != null && play == true)
 				moveRight();						//player moves right
-				activateMino();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_1) {
 			if(counter==1) {
@@ -361,10 +405,5 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		coorCol++;
 		playerX+=N;							
 	}
-	public void activateMino() {
-		if(coorCol > MAZEX/4 || active) {
-			new Minotaur(minoRow,minoCol,coorRow,coorCol,maze.maze);	//generates closest path from minotaur to player 
-			active = true;
-		}
-	}
+
 }

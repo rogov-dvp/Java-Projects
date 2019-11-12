@@ -14,28 +14,26 @@ public class Minotaur {
 		coorCol = coorY;
 		pathFinder(maze, playerRow, playerCol);
 	}
-		
 	
 	public void pathFinder(Node[][] maze, int playerRow, int playerCol) {
 		QueuePath queue = new QueuePath();
+		//clear node's attributes to default
 		for(int i = 0; i <maze.length;i++) {
 			for(int j = 0; j < maze[0].length;j++) {
 				maze[i][j].setSelected(false);
 				maze[i][j].setVisited(false);
+				maze[i][j].setCounter(0);
 			}
-		}
-		
-		
+		}		
 		Node pointer = maze[coorRow][coorCol];
 		pointer.setVisited(true);
 		int originX = pointer.getX();
 		int originY = pointer.getY();
-		int counter = 0;
+		int counter = 0;						
 		//Find all paths until it reaches player's coordinates (coorX,coorY)
-		System.out.println("player: (" + playerRow + "," + playerCol +")");
+//		System.out.println("player: (" + playerRow + "," + playerCol +")");
 			do {
-				counter = pointer.getCounter() + 1;
-				System.out.println("counter: "+counter);
+				counter = pointer.getCounter() + 1;		//Mino stands on counter = 0, 
 
 				if(maze[coorRow][coorCol].getUp() != null && maze[coorRow][coorCol].getUp().isVisited() == false) {
 					maze[coorRow][coorCol].getUp().setCounter(counter);	//based on distance from original point, counter increases
@@ -59,70 +57,47 @@ public class Minotaur {
 				}
 				
 					pointer = queue.dequeue(); 
+					
+
 					coorRow = pointer.getX();
 					coorCol = pointer.getY();
-					System.out.println();
+					
+					
 								
 			} while(!(coorCol == playerCol && coorRow == playerRow));
 			
 			queue.makeEmpty();
-			
-			
-			
-			
-			
-			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-			//Selecting the correct path
-//			maze[coorRow][coorCol] = maze[coorX][coorY];		//Start from 
+						
+			//Selecting the correct path. Starting from player position
 			coorRow = playerRow;
-			coorCol = playerCol;
-			
-			System.out.println("node: ("+ maze[coorRow][coorCol].getX() +"," + maze[coorRow][coorCol].getY() +"): " + maze[coorRow][coorCol]);
-			if(maze[coorRow][coorCol].getUp() != null && maze[coorRow][coorCol].getUp().isVisited()) 
-				System.out.println("up:" + maze[coorRow][coorCol].getUp().getCounter());
-			else if(maze[coorRow][coorCol].getRight() != null && maze[coorRow][coorCol].getRight().isVisited())
-				System.out.println("right:" + maze[coorRow][coorCol].getRight().getCounter());
-			else if(maze[coorRow][coorCol].getDown() != null && maze[coorRow][coorCol].getDown().isVisited())
-				System.out.println("down:" + maze[coorRow][coorCol].getDown().getCounter());
-			else if(maze[coorRow][coorCol].getLeft() != null && maze[coorRow][coorCol].getLeft().isVisited())
-				System.out.println("left:" + maze[coorRow][coorCol].getLeft().getCounter());
-			
-			
-			counter--;	//to balance out
-			System.out.println();
-			System.out.println("counter: " + counter);
+			coorCol = playerCol;			
 			while(!(originX == coorRow && originY == coorCol)) {
 				maze[coorRow][coorCol].setSelected(true);		//players position is the path ending
 				counter--;
+				
 				if((maze[coorRow][coorCol].getUp() != null && maze[coorRow][coorCol].getUp().isVisited())
 						&& maze[coorRow][coorCol].getUp().getCounter() == counter) {
 					maze[coorRow][coorCol].setSelected(true);
 					coorRow--;
-					System.out.println("Pathing Up");
 				} else if ((maze[coorRow][coorCol].getRight() != null && maze[coorRow][coorCol].getRight().isVisited())
 						&& maze[coorRow][coorCol].getRight().getCounter() == counter) {
 					maze[coorRow][coorCol].setSelected(true);
 					coorCol++;
-					System.out.println("Pathing Right");
 				} else if ((maze[coorRow][coorCol].getDown() != null && maze[coorRow][coorCol].getDown().isVisited())
 						&& maze[coorRow][coorCol].getDown().getCounter() == counter) {
 					maze[coorRow][coorCol].setSelected(true);
 					coorRow++;
-					System.out.println("Pathing Down");
 				} else if ((maze[coorRow][coorCol].getLeft() != null && maze[coorRow][coorCol].getLeft().isVisited()) 
 						&& maze[coorRow][coorCol].getLeft().getCounter() == counter) {
 					maze[coorRow][coorCol].setSelected(true);
 					coorCol--;
-					System.out.println("Pathing Left");
 				} else {
-					GameStart.play = false;
-					System.out.println("hehexd out");
-					break;
+
+
 				}
 			}
-	System.out.println("hehexd FINAL");
 	}
 	
-
+	
 	
 }
