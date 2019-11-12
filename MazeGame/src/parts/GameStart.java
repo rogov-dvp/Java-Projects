@@ -39,8 +39,10 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private final int MAZEY = 14;											
 	private final int COORROW = MAZEY/2+1;									
 	private final int COORCOL = 1;											
-	
-//attributes
+	//Minotaur Speed
+	private final int MINOSPEED = 25;								//Smaller number --> Faster Minotaur
+
+	//attributes
 	public static boolean play = false;		//Must press Enter to begin	
 	private int counter = 0;			//Based on counter, Used for starting page, reseting.
 	private Timer timer;
@@ -74,7 +76,6 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int minoCol = COORCOL;
 	private boolean active = false;
 	private int counterTimer = 0;
-	private final int MINOSPEED = 30;								//Smaller number --> Faster Minotaur
 	private boolean minoVis = false;
 	private int minoVisCounter = 0;
 	
@@ -338,6 +339,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		a1.subtract(a3);	//subtract finish line circle from Rect
 		g2d.fill(a1);
 		//Minotaur, If caught with reduced-visibility
+
 		if(minoVisCounter > 1 && playerX == minoX && playerY == minoY) {
 			g.setColor(new Color(84,0,0));
 			g2d.fill(a1);
@@ -348,12 +350,20 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			g.drawString("Oh no,", playerX-210, playerY+N/2);
 			g.drawString("You were slain!", playerX-270, playerY+3*N/2);
 		}
-
 		} else {
+			if(minoVisCounter > 1 && playerX == minoX && playerY == minoY) {
+				g.setColor(new Color(84,0,0));
+				g.fillRect(playerX-280,playerY-N/2,238,86);
+				g.setColor(new Color(201, 201, 201));	//blood red-ish
+				g.setFont(new Font(font,Font.BOLD, 30));
+				g.drawString("Oh no,", playerX-210, playerY+N/2);
+				g.drawString("You were slain!", playerX-270, playerY+3*N/2);
+			}
 		winStringX = 820;
 		winStringY = ballEndY-15;
 		restartStringX = 765;
 		restartStringY = ballEndY+35;
+		
 		}
 		//character visibility
 		
@@ -369,9 +379,11 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			g.setFont(new Font(font,Font.CENTER_BASELINE,30));
 			g.drawString("Press Enter to restart", restartStringX, restartStringY);
 		}
+		
 		g.setColor(Color.GREEN);
 		g.setFont(new Font(font,Font.BOLD, 20));
 		g.drawString("Keys Collected: " + keysCollected, 40, 40);
+		
 		}
 	}
 	
