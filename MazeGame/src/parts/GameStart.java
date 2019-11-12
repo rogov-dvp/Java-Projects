@@ -24,6 +24,7 @@ Game: Mazlzahar's Maze (Maze with more features such as less visibility, collect
 Developer: Alex Rogov
 British Columbia, Canada
 email: alexandre.rogov@gmail.com	
+
 */
 public class GameStart extends JPanel implements KeyListener, ActionListener{
 	//Constant Variables:
@@ -44,7 +45,6 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int counter = 0;			//Based on counter, Used for starting page, reseting.
 	private Timer timer;
 	private int delay = 8;
-	private int counterTimer = 0;
 	
 	//maze & dimensions
 	private MazeGenerator maze;										//maze reference
@@ -73,6 +73,10 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int minoRow = COORROW;
 	private int minoCol = COORCOL;
 	private boolean active = false;
+	private int counterTimer = 0;
+	private final int MINOSPEED = 50;								//Smaller number --> Faster Minotaur
+	private boolean minoVis = false;
+	private int minoVisCounter = 0;
 	
 	//In-game Objects and locations
 	private int ballEndX = ancX+MAZEX*N+N/4;
@@ -180,12 +184,14 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 				g.drawLine(lX1+N*(i), lY1+N*(j), lX2+N*(i), lY2+N*(j));				//Left border
 			}
 		}
+		//Keys
+//		g.setColor(Color.WHITE);
+//		g.fillOval(, , N/2, N/2);
 		
 		//Minotaur
-		if(active) {
+		if(active || minoVisCounter > 0) {
 		g.setColor(Color.RED);
 		g.fillOval(minoX, minoY, N, N);
-		
 		}
 		//Reduce visibility
 		if(visibility) { 
@@ -194,15 +200,55 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		Area a3 = new Area(new Ellipse2D.Double(ballEndX-30, ballEndY-30, 75, 75));				//spotlight around finish line
 		Area p = new Area(new Rectangle2D.Double(playerX,playerY,N+1,N+1)); 
 		a1.subtract(p);		//Player is always visible
+				
 		
 		boolean validUp = true;
 		boolean validRight = true;
 		boolean validDown = true;
 		boolean validLeft = true;
+		//minotaur start vision
+		if(minoVis) {
+		for(int i =0; i < 4; i++) {
+			for(int j = 0; j<1;j++) {
+					Area m = new Area(new Rectangle2D.Double(minoX,minoY,N, N));
+					a1.subtract(m);
+					if(validUp && maze.maze[minoRow-j][minoCol].getUp() != null) {
+						Area out = new Area(new Rectangle2D.Double(minoX,minoY-(j+1)*N,N+1,N+1));
+						a1.subtract(out);
+					} else {
+						validUp = false;
+					}
+					//right
+					if(validRight && maze.maze[minoRow][minoCol+j].getRight() != null) {
+						Area out = new Area(new Rectangle2D.Double(minoX+(j+1)*N,minoY,N+1,N+1));
+						a1.subtract(out);
+					} else {
+						validRight = false;
+					}
+					//down
+					if(validDown && maze.maze[minoRow+j][minoCol].getDown() != null) {
+						Area out = new Area(new Rectangle2D.Double(minoX,minoY+(j+1)*N,N+1,N+1));
+						a1.subtract(out);
+					} else {
+						validDown = false;
+					}
+					//left
+					if(validLeft && maze.maze[minoRow][minoCol-j].getLeft() != null) {						
+						Area out = new Area(new Rectangle2D.Double(minoX-(j+1)*N,minoY,N+1,N+1));
+						a1.subtract(out);
+					} else {
+						validLeft = false;
+					}
+					
+					}
+			}
+		}
+		
+		
 		//subtracting boxing around player based on walls, i = 0 up |i = 1 right | i = 2 down | i = 3 left 
 		for(int i = 0; i < 4; i++) {			//direction
 			for(int j = 0; j<MAX_BLOCK_VISIBILITY; j++) {			//# of blocks
-								
+		
 				//up
 				if(validUp && maze.maze[coorRow-j][coorCol].getUp() != null) {
 					Area out = new Area(new Rectangle2D.Double(playerX,playerY-(j+1)*N,N+1,N+1));
@@ -242,6 +288,18 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		
 		a1.subtract(a3);	//subtract finish line circle from Rect
 		g2d.fill(a1);
+		//Minotaur, If caught with reduced-visibility
+		if(minoVisCounter > 1 && playerX == minoX && playerY == minoY) {
+			g.setColor(new Color(84,0,0));
+			g2d.fill(a1);
+			g.setColor(Color.BLACK);
+			g.fillRect(playerX-270,playerY-N/2,262,86);
+			g.setColor(new Color(201, 201, 201));	//blood red-ish
+			g.setFont(new Font(font,Font.BOLD, 35));
+			g.drawString("Oh no,", playerX-190, playerY+N/2);
+			g.drawString("You were slain!", playerX-270, playerY+2*N);
+		}
+
 		} else {
 		winStringX = 820;
 		winStringY = ballEndY-15;
@@ -251,7 +309,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		//character visibility
 		
 		//finish line ball. Place AFTER visibility reducer
-		g.setColor(Color.RED);
+		g.setColor(new Color(255,215,0));
 		g.fillOval(ballEndX, ballEndY, N/2, N/2);
 		if(playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4)) {
 			g.setColor(winColor);
@@ -286,12 +344,21 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		//code for having the Minotaur chase
 		//Player has to move from starting position for counter to start
 		counterTimer++;
-		if(((coorRow > 10 || coorRow < 6) || coorCol > 3) && play && counterTimer >=70) {
+		if(((coorRow > 10 || coorRow < 6) || coorCol > 3) && play && counterTimer >= MINOSPEED) {
 			active = true;			
 			ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);		
 			Runnable runPath = new Runnable() {
 			    public void run() {
 			new Minotaur(minoRow,minoCol,coorRow,coorCol,maze.maze);
+			
+			//Minotaur start visibility.
+			if(minoVisCounter < 4) {
+				minoVis = true;
+				minoVisCounter++;
+			} else 
+				minoVis=false;
+
+				
 			System.out.println("PlayerRow,PlayerCol: "+coorRow+" , "+coorCol);
 			System.out.print("Mino current: (" + minoRow + "," + minoCol +")  |  ");
 			if(maze.maze[minoRow][minoCol].getUp() != null && maze.maze[minoRow][minoCol].getUp().isSelected()) {
@@ -321,8 +388,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			executor.shutdown();
 			counterTimer=0;
 		}
-		if(counterTimer >= 70) {
-			System.out.println("reset timer =======================================");
+		if(counterTimer >= 70) {		//arbitrary number
 			counterTimer = 0;
 		}
 		
@@ -336,7 +402,6 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(e.getKeyCode() == KeyEvent.VK_V)
 			visibility = !visibility;
 		if(e.getKeyCode() == KeyEvent.VK_UP) {	
-			System.out.println(play);
 			if(maze.maze[coorRow][coorCol].getUp() != null && play == true)
 				moveUp();							//player moves up 
 		}
@@ -376,7 +441,15 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 					coorRow = COORROW;
 					coorCol = COORCOL;
 					playerX = PLAYERX;									//playerX pixel location
-					playerY = PLAYERY;						//playerY pixel location						
+					playerY = PLAYERY;						//playerY pixel location
+					
+					//If you want minotaur to start at last position, comment out the following 4 lines:
+					minoX = PLAYERX;
+					minoY = PLAYERY;
+					minoRow = COORROW;
+					minoCol = COORCOL;
+					minoVisCounter = 0;
+					
 					maze = new MazeGenerator(MAZEX,MAZEY);
 					play = true;
 					repaint();
