@@ -74,7 +74,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int minoCol = COORCOL;
 	private boolean active = false;
 	private int counterTimer = 0;
-	private final int MINOSPEED = 50;								//Smaller number --> Faster Minotaur
+	private final int MINOSPEED = 30;								//Smaller number --> Faster Minotaur
 	private boolean minoVis = false;
 	private int minoVisCounter = 0;
 	
@@ -82,6 +82,28 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int ballEndX = ancX+MAZEX*N+N/4;
 	private int ballEndY = ancY+(N*MAZEY)/2+N/4 +N;
 	private boolean visibility = false;
+	private int keysCollected = 0;
+	private boolean keysActive = true;
+	private int rand1 = 0;
+	private int rand2 = 0;
+	//key possible locations
+	//key 1: top left corner
+	private boolean keyOneActive = false;
+	private int keyOneX = PLAYERX+N/4;						//x-pixel location 
+	private int keyOneY = PLAYERY-N*MAZEY/2+N/4;			//y-pixel location
+	//key 2: bottom left corner
+	private boolean keyTwoActive = false;
+	private int keyTwoX = PLAYERX+N/4;
+	private int keyTwoY = PLAYERY+N*MAZEY/2-3*N/4;	
+	//key 3: bottom right corner
+	private boolean keyThreeActive = false;
+	private int keyThreeX = PLAYERX+N*MAZEX-3*N/4;
+	private int keyThreeY = PLAYERY+N*MAZEY/2-3*N/4;
+	//key 4: right top corner
+	private boolean keyFourActive = false;
+	private int keyFourX = PLAYERX+N*MAZEX-3*N/4;
+	private int keyFourY = PLAYERY-N*MAZEY/2+N/4;
+	
 	
 	//win string coordinates if no reduced visibility
 	private int winStringX = 320; 
@@ -97,9 +119,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int upX2 = ancXplus; private int rX2 = ancXplus; private int bX2 = ancX;	 private int lX2 = ancX;
 	private int upY2 = ancY;	 private int rY2 = ancYplus; private int bY2 = ancYplus; private int lY2 = ancY;
 	//---------------------------------------------------------------------------------------------------------------
-	
-	Timer timer1;
-	
+		
 ///constructors
 	public GameStart() {
 		maze = new MazeGenerator(MAZEX,MAZEY);		//generates maze
@@ -107,7 +127,6 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		setFocusable(true); 					//by default
 		setFocusTraversalKeysEnabled(false);	//tab and shift are disabled	
 		timer = new Timer(delay, this);
-		timer1 = new Timer(1000, this);
 		timer.start();
 	}
 	
@@ -185,8 +204,20 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			}
 		}
 		//Keys
-//		g.setColor(Color.WHITE);
-//		g.fillOval(, , N/2, N/2);
+		if(keyOneActive) {
+		g.setColor(Color.WHITE);
+		g.fillOval(keyOneX, keyOneY, N/2, N/2);
+		} else if(keyTwoActive) {
+		g.setColor(Color.WHITE);
+		g.fillOval(keyTwoX, keyTwoY, N/2, N/2);
+		} 
+		if(keyThreeActive) {
+		g.setColor(Color.WHITE);
+		g.fillOval(keyThreeX, keyThreeY, N/2, N/2);
+		} else if(keyFourActive) {
+		g.setColor(Color.WHITE);
+		g.fillOval(keyFourX, keyFourY, N/2, N/2);
+		}
 		
 		//Minotaur
 		if(active || minoVisCounter > 0) {
@@ -199,6 +230,24 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		Area a1 = new Area(new Rectangle2D.Double(0, 0, 1100, 600)); 							//grey screen around 
 		Area a3 = new Area(new Ellipse2D.Double(ballEndX-30, ballEndY-30, 75, 75));				//spotlight around finish line
 		Area p = new Area(new Rectangle2D.Double(playerX,playerY,N+1,N+1)); 
+		
+		if(keyOneActive && (minoVis ^ minoVisCounter==0)) {
+		Area key1 = new Area(new Ellipse2D.Double(keyOneX-30,keyOneY-30,75,75));
+		a1.subtract(key1);
+		}else if(keyTwoActive && (minoVis ^ minoVisCounter==0)) {
+		Area key2 = new Area(new Ellipse2D.Double(keyTwoX-30,keyTwoY-30,75,75));
+		a1.subtract(key2);
+		}
+		if(keyThreeActive && (minoVis ^ minoVisCounter==0)) {
+		Area key3 = new Area(new Ellipse2D.Double(keyThreeX-30,keyThreeY-30,75,75));
+		a1.subtract(key3);
+		} else if(keyFourActive && (minoVis ^ minoVisCounter==0)) {
+		Area key4 = new Area(new Ellipse2D.Double(keyFourX-30,keyFourY-30,75,75));
+		a1.subtract(key4);
+		}
+		
+
+		
 		a1.subtract(p);		//Player is always visible
 				
 		
@@ -293,11 +342,11 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			g.setColor(new Color(84,0,0));
 			g2d.fill(a1);
 			g.setColor(Color.BLACK);
-			g.fillRect(playerX-270,playerY-N/2,262,86);
+			g.fillRect(playerX-280,playerY-N/2,238,86);
 			g.setColor(new Color(201, 201, 201));	//blood red-ish
-			g.setFont(new Font(font,Font.BOLD, 35));
-			g.drawString("Oh no,", playerX-190, playerY+N/2);
-			g.drawString("You were slain!", playerX-270, playerY+2*N);
+			g.setFont(new Font(font,Font.BOLD, 30));
+			g.drawString("Oh no,", playerX-210, playerY+N/2);
+			g.drawString("You were slain!", playerX-270, playerY+3*N/2);
 		}
 
 		} else {
@@ -311,7 +360,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		//finish line ball. Place AFTER visibility reducer
 		g.setColor(new Color(255,215,0));
 		g.fillOval(ballEndX, ballEndY, N/2, N/2);
-		if(playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4)) {
+		if(playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4) && keysCollected == 2) {
 			g.setColor(winColor);
 			g.setFont(new Font(font,Font.BOLD, 45));
 			g.drawString("You Win", winStringX, winStringY);
@@ -320,6 +369,9 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			g.setFont(new Font(font,Font.CENTER_BASELINE,30));
 			g.drawString("Press Enter to restart", restartStringX, restartStringY);
 		}
+		g.setColor(Color.GREEN);
+		g.setFont(new Font(font,Font.BOLD, 20));
+		g.drawString("Keys Collected: " + keysCollected, 40, 40);
 		}
 	}
 	
@@ -331,24 +383,49 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		timer.start();	
-		//If player is at finish ball location. Stop game.
-		if((playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4))) {
+		//If player is at finish ball location and has collected enough keys. Stop game.
+		if((playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4)) && keysCollected == 2) {
 			play = false;
 			active = false;
 		}
+		//two keys get activated at beginning of round.
+		if(keysActive) {
+			rand1 = (int)(Math.random()*2+1); //1 or 2
+			rand2 = (int)(Math.random()*2+3); //3 or 4
+			
+			if(rand1==1) keyOneActive = true;
+			else if(rand1 == 2)keyTwoActive = true;
+			if(rand2 == 3) keyThreeActive = true;
+			else if(rand2 == 4)keyFourActive = true;
+			keysActive = false;
+		}
+		//key 1 or 2
+		if(rand1 == 1 && keyOneActive && playerX == keyOneX-N/4 && playerY == keyOneY-N/4) {
+			keysCollected++;
+			keyOneActive = false;
+		} else if(rand1 == 2 && keyTwoActive &&  playerX == keyTwoX-N/4 && playerY == keyTwoY-N/4){
+			keysCollected++;
+			keyTwoActive = false;
+		}
+		if(rand2 == 3 && keyThreeActive && playerX == keyThreeX-N/4 && playerY == keyThreeY-N/4) {
+			keysCollected++;
+			keyThreeActive = false;
+		} else if(rand2 == 4 && keyFourActive && playerX == keyFourX-N/4 && playerY == keyFourY-N/4){
+			keysCollected++;
+			keyFourActive = false;
+		}
+	
+		
+		//Minotaur catching player
 		if((coorRow == minoRow && coorCol==minoCol && active)) {
 			play = false;
 			active = false;			
 		}
-		
 		//code for having the Minotaur chase
 		//Player has to move from starting position for counter to start
 		counterTimer++;
 		if(((coorRow > 10 || coorRow < 6) || coorCol > 3) && play && counterTimer >= MINOSPEED) {
 			active = true;			
-			ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);		
-			Runnable runPath = new Runnable() {
-			    public void run() {
 			new Minotaur(minoRow,minoCol,coorRow,coorCol,maze.maze);
 			
 			//Minotaur start visibility.
@@ -358,34 +435,20 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			} else 
 				minoVis=false;
 
-				
-			System.out.println("PlayerRow,PlayerCol: "+coorRow+" , "+coorCol);
-			System.out.print("Mino current: (" + minoRow + "," + minoCol +")  |  ");
 			if(maze.maze[minoRow][minoCol].getUp() != null && maze.maze[minoRow][minoCol].getUp().isSelected()) {
 				minoRow--;
 				minoY -= N;
-				System.out.println("Mino goes Up: (" + minoRow + "," + minoCol +")");
 			} else if(maze.maze[minoRow][minoCol].getRight() != null && maze.maze[minoRow][minoCol].getRight().isSelected()) {
 				minoCol++;
 				minoX += N;
-				System.out.println("Mino goes Right: (" + minoRow + "," + minoCol +")");
 			} else if(maze.maze[minoRow][minoCol].getDown() != null && maze.maze[minoRow][minoCol].getDown().isSelected()) {
 				minoRow++;
 				minoY += N;
-				System.out.println("Mino goes Down: (" + minoRow + "," + minoCol +")");
 			}else if(maze.maze[minoRow][minoCol].getLeft() != null && maze.maze[minoRow][minoCol].getLeft().isSelected()) {
 				minoCol--;	
 				minoX -= N;
-				System.out.println("Mino goes Left: (" + minoRow + "," + minoCol +")");
 			} else {
-				System.out.println("null");
 			}
-			System.out.println();
-				}
-			};
-			
-			executor.schedule(runPath,0, TimeUnit.SECONDS);
-			executor.shutdown();
 			counterTimer=0;
 		}
 		if(counterTimer >= 70) {		//arbitrary number
@@ -449,6 +512,14 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 					minoRow = COORROW;
 					minoCol = COORCOL;
 					minoVisCounter = 0;
+					
+					//keys
+					keysActive = true;
+					keyOneActive = false;
+					keyTwoActive = false;
+					keyThreeActive = false;
+					keyFourActive = false;
+					keysCollected = 0;
 					
 					maze = new MazeGenerator(MAZEX,MAZEY);
 					play = true;
