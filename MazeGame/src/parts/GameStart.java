@@ -25,6 +25,21 @@ Developer: Alex Rogov
 British Columbia, Canada
 email: alexandre.rogov@gmail.com	
 
+UPDATE IDEAS:
+
+Update graphics
+Create page with controls
+High-score
+music
+thicken walls
+esc-key pauses game
+Make gold key disappear
+random in-game re-maze generator pick-up item
+player two? keys: q-a-s-d controls
+	- item which removes opponents visibility for a few seconds
+	- items: speed boost, 
+add strategy to the game?
+
 */
 public class GameStart extends JPanel implements KeyListener, ActionListener{
 	//Constant Variables:
@@ -40,7 +55,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private final int COORROW = MAZEY/2+1;									
 	private final int COORCOL = 1;											
 	//Minotaur Speed
-	private final int MINOSPEED = 25;								//Smaller number --> Faster Minotaur
+	private final int MINOSPEED = 40;								//Smaller number --> Faster Minotaur
 
 	//attributes
 	public static boolean play = false;		//Must press Enter to begin	
@@ -70,26 +85,26 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int coorCol = COORCOL;									//PlayerCol coordinates
 	
 	//Minotaur
-	private int minoX = PLAYERX;									//References Columns
-	private int minoY = PLAYERY;									//References Rows
-	private int minoRow = COORROW;
-	private int minoCol = COORCOL;
-	private boolean active = false;
-	private int counterTimer = 0;
-	private boolean minoVis = false;
-	private int minoVisCounter = 0;
+	private int minoX = PLAYERX;									//mino x pixel location
+	private int minoY = PLAYERY;									//mino y pixel location
+	private int minoRow = COORROW;									//mino row location	
+	private int minoCol = COORCOL;									//mino col location
+	private boolean active = false;							//determines if mino is active
+	private int counterTimer = 0;							//This timer is apart of dictating mino refresh rate/movement
+	private boolean minoVis = false;						//Boolean for mino's visibility
+	private int minoVisCounter = 0;							//Used for displaying how long mino is visible under reduced visibility
 	
 	//In-game Objects and locations
-	private int ballEndX = ancX+MAZEX*N+N/4;
-	private int ballEndY = ancY+(N*MAZEY)/2+N/4 +N;
+	private int ballEndX = ancX+MAZEX*N+N/4;				//finish line(or ball) x pixel location
+	private int ballEndY = ancY+(N*MAZEY)/2+N/4 +N;			//finish line(or ball) y pixel location
 	private boolean visibility = false;
-	private int keysCollected = 0;
-	private boolean keysActive = true;
-	private int rand1 = 0;
-	private int rand2 = 0;
+	private int keysCollected = 0;		
+	private boolean keysActive = true;						//determines if key is visible under reduced visibility
+	private int rand1 = 0;									//used for randomely selecting one left side key
+	private int rand2 = 0;									//used for randomely selecting one right side key
 	//key possible locations
 	//key 1: top left corner
-	private boolean keyOneActive = false;
+	private boolean keyOneActive = false;					//To show if key is active or not
 	private int keyOneX = PLAYERX+N/4;						//x-pixel location 
 	private int keyOneY = PLAYERY-N*MAZEY/2+N/4;			//y-pixel location
 	//key 2: bottom left corner
@@ -232,6 +247,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		Area a3 = new Area(new Ellipse2D.Double(ballEndX-30, ballEndY-30, 75, 75));				//spotlight around finish line
 		Area p = new Area(new Rectangle2D.Double(playerX,playerY,N+1,N+1)); 
 		
+		//Key visibility under reduced visibility
 		if(keyOneActive && (minoVis ^ minoVisCounter==0)) {
 		Area key1 = new Area(new Ellipse2D.Double(keyOneX-30,keyOneY-30,75,75));
 		a1.subtract(key1);
@@ -256,7 +272,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		boolean validRight = true;
 		boolean validDown = true;
 		boolean validLeft = true;
-		//minotaur start vision
+		//minotaur start vision. Has same vision as player. Difference is that it sees one block ahead max
 		if(minoVis) {
 		for(int i =0; i < 4; i++) {
 			for(int j = 0; j<1;j++) {
@@ -359,14 +375,13 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 				g.drawString("Oh no,", playerX-210, playerY+N/2);
 				g.drawString("You were slain!", playerX-270, playerY+3*N/2);
 			}
+		//Changes Win string location when no visibility
 		winStringX = 820;
 		winStringY = ballEndY-15;
 		restartStringX = 765;
 		restartStringY = ballEndY+35;
 		
 		}
-		//character visibility
-		
 		//finish line ball. Place AFTER visibility reducer
 		g.setColor(new Color(255,215,0));
 		g.fillOval(ballEndX, ballEndY, N/2, N/2);
@@ -379,7 +394,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			g.setFont(new Font(font,Font.CENTER_BASELINE,30));
 			g.drawString("Press Enter to restart", restartStringX, restartStringY);
 		}
-		
+		//Keys collected sidn
 		g.setColor(Color.GREEN);
 		g.setFont(new Font(font,Font.BOLD, 20));
 		g.drawString("Keys Collected: " + keysCollected, 40, 40);
@@ -400,7 +415,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			play = false;
 			active = false;
 		}
-		//two keys get activated at beginning of round.
+		//two keys get activated at beginning of round. Only 1 key per side (1 for left side and 1 for right side)
 		if(keysActive) {
 			rand1 = (int)(Math.random()*2+1); //1 or 2
 			rand2 = (int)(Math.random()*2+3); //3 or 4
@@ -411,7 +426,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			else if(rand2 == 4)keyFourActive = true;
 			keysActive = false;
 		}
-		//key 1 or 2
+		//key 1 or 2.
 		if(rand1 == 1 && keyOneActive && playerX == keyOneX-N/4 && playerY == keyOneY-N/4) {
 			keysCollected++;
 			keyOneActive = false;
@@ -419,6 +434,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			keysCollected++;
 			keyTwoActive = false;
 		}
+		//
 		if(rand2 == 3 && keyThreeActive && playerX == keyThreeX-N/4 && playerY == keyThreeY-N/4) {
 			keysCollected++;
 			keyThreeActive = false;
