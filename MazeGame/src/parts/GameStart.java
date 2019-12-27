@@ -11,12 +11,14 @@ import java.awt.event.KeyListener;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-//
 import javax.swing.Timer;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /*
@@ -55,7 +57,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private final int COORROW = MAZEY/2+1;									
 	private final int COORCOL = 1;											
 	//Minotaur Speed
-	private final int MINOSPEED = 40;								//Smaller number --> Faster Minotaur
+	private int minospeed = 35;								//Smaller number --> Faster Minotaur. SLOWEST:70
 
 	//attributes
 	public static boolean play = false;		//Must press Enter to begin	
@@ -154,9 +156,10 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		Color optionsColor = new Color(201, 159, 66);
 		Color winColor = new Color(81, 245, 92);	//~Greenish
 		Color enterColor = new Color(255, 232, 181);//~Very light beige
-		
+		Color textColor = new Color(255, 240, 194);
+
 		//opening page
-		if(!play && counter == 0) {	
+		if(!play && counter == 0) {	//---------------------------------------------------------------------------------
 			//start background 
 			g.setColor(startColor);
 			g.fillRect(0, 0, FRAMEWIDTH, FRAMEHEIGHT);
@@ -169,30 +172,147 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			g.setFont(new Font(font,Font.CENTER_BASELINE,36));
 			g.drawString("Press Enter", (int)(FRAMEWIDTH/3.2)+84, (int)(FRAMEHEIGHT/3)+80);
 			
-		//options page 1: Want visibility?
-		} else if(!play && counter==1) {	
+		//options page 1: Controls/Gameplay
+		} else if(!play && counter == 1) {	//---------------------------------------------------------------------------------
+			
+			int x = 70;
 			//background
 			g.setColor(optionsColor);
 			g.fillRect(0,0,FRAMEWIDTH,FRAMEHEIGHT);
-			//title
+			//Lines to separate 'Controls' and 'Objective' and black box
 			g.setColor(titleColor);
-			g.setFont(new Font(font,Font.BOLD, 50));
-			g.drawString("Options", (int)(FRAMEWIDTH/3)+60, (int)(FRAMEHEIGHT/3)); 
-			//Asks if want reduced visibility
-			g.setColor(titleColor);
-			g.setFont(new Font(font,Font.BOLD, 25));
-			g.drawString("- Reduce Visiblity:", (int)(FRAMEWIDTH/3)+70, (int)(FRAMEHEIGHT/3)+75); 
-			//1 = yes, 2 = no
-			g.setColor(titleColor);
-			g.setFont(new Font(font,Font.BOLD, 25));
-			g.drawString("1 = Yes", (int)(FRAMEWIDTH/3)+70, (int)(FRAMEHEIGHT/3)+150); 
-			g.setColor(titleColor);
-			g.setFont(new Font(font,Font.BOLD, 25));
-			g.drawString("2 = No", (int)(FRAMEWIDTH/3)+180, (int)(FRAMEHEIGHT/3)+150); 
+			g.drawLine(FRAMEWIDTH/2, 0, FRAMEWIDTH/2, FRAMEHEIGHT);
+			g.drawLine(50+x, (int)(FRAMEHEIGHT/3)+2, 50+x+315, (int)(FRAMEHEIGHT/3)+2);
+			g.drawLine(FRAMEWIDTH/2+50, (int)(FRAMEHEIGHT/3)+2, FRAMEWIDTH-50, (int)(FRAMEHEIGHT/3)+2);
+			//g.setColor(Color.BLACK);
+			g.fillRect(245+x, (int)(FRAMEHEIGHT/3)+20, 50+x, 190);
+			g.fillRect(FRAMEWIDTH/2+210, (int)(FRAMEHEIGHT/3)+20, 70, 190);
+			g.fillRect(FRAMEWIDTH/2+320, (int)(FRAMEHEIGHT/3)+20, 180, 190);
 
 			
+			//(Controls)=>title
+			g.setColor(titleColor);
+			g.setFont(new Font(font,Font.BOLD, 50));
+			g.drawString("Controls", (int)(1.2*FRAMEWIDTH/8), (int)(FRAMEHEIGHT/6)); 
 			
-		} else {
+			//(Controls)=>Content
+			g.setColor(titleColor);
+			g.setFont(new Font(font,Font.BOLD, 28));
+			g.drawString("Key", 50+x+30, (int)(FRAMEHEIGHT/3));
+			g.drawString("Action", 50+x+200, (int)(FRAMEHEIGHT/3));	
+			
+			g.setFont(new Font(font,Font.PLAIN, 20));
+			g.drawString("Up-arrow:", 50+x, (int)(FRAMEHEIGHT/3)+50); 
+			g.drawString("Right-arrow:", 50+x, (int)(FRAMEHEIGHT/3)+100); 
+			g.drawString("Down-arrow:", 50+x, (int)(FRAMEHEIGHT/3)+150); 
+			g.drawString("Left-arrow:", 50+x, (int)(FRAMEHEIGHT/3)+200); 
+			g.setColor(textColor);
+			g.setFont(new Font(font,Font.PLAIN, 20));
+			g.drawString("UP", 265+x, (int)(FRAMEHEIGHT/3)+50);
+			g.drawString("RIGHT", 265+x, (int)(FRAMEHEIGHT/3)+100);
+			g.drawString("DOWN", 265+x, (int)(FRAMEHEIGHT/3)+150);
+			g.drawString("LEFT", 265+x, (int)(FRAMEHEIGHT/3)+200);			
+
+			
+			//(Gameplay)=>title
+			g.setColor(titleColor);
+			g.setFont(new Font(font,Font.BOLD, 50));
+			g.drawString("Gameplay", (int)(5.2*FRAMEWIDTH/8), (int)(FRAMEHEIGHT/6)); 
+			//(Object)=>Content
+			g.setColor(titleColor);
+			g.setFont(new Font(font,Font.BOLD, 28));
+			g.drawString("Objects", FRAMEWIDTH/2+50, (int)(FRAMEHEIGHT/3));
+			//object
+			g.setFont(new Font(font,Font.PLAIN, 25));
+			g.drawString("Player:", FRAMEWIDTH/2+50, (int)(FRAMEHEIGHT/3)+50); 
+			g.drawString("White key:", FRAMEWIDTH/2+50, (int)(FRAMEHEIGHT/3)+100); 
+			g.drawString("Gold key:", FRAMEWIDTH/2+50, (int)(FRAMEHEIGHT/3)+150); 
+			g.drawString("Minotaur:", FRAMEWIDTH/2+50, (int)(FRAMEHEIGHT/3)+200); 
+			//drawing of object
+			g.setColor(startColor);				
+			g.fillOval(FRAMEWIDTH/2+228,(int)(FRAMEHEIGHT/3)+30,N,N);	//player
+			g.setColor(Color.WHITE);
+			g.fillOval(FRAMEWIDTH/2+236,(int)(FRAMEHEIGHT/3)+85,N/2,N/2);	//white key
+			g.setColor(new Color(255,215,0));
+			g.fillOval(FRAMEWIDTH/2+236,(int)(FRAMEHEIGHT/3)+130,N/2,N/2);	//gold key
+			g.setColor(Color.RED);
+			g.fillOval(FRAMEWIDTH/2+228,(int)(FRAMEHEIGHT/3)+170,N,N);	//minotaur
+			
+			//Description of object
+			g.setFont(new Font(font,Font.PLAIN,15));
+			g.setColor(textColor);
+			//player description
+			g.drawString("This is you. Controls", FRAMEWIDTH/2+320+10, (int)(FRAMEHEIGHT/3)+40);
+			g.drawString("affect this object", FRAMEWIDTH/2+320+10, (int)(FRAMEHEIGHT/3)+60);
+			//white key description
+			g.drawString("Collect two of these", FRAMEWIDTH/2+320+10, (int)(FRAMEHEIGHT/3)+86);			
+			g.drawString("keys first", FRAMEWIDTH/2+320+10, (int)(FRAMEHEIGHT/3)+106);			
+			//gold key description
+			g.drawString("Collect this key last to", FRAMEWIDTH/2+320+10, (int)(FRAMEHEIGHT/3)+132);			
+			g.drawString("win the game", FRAMEWIDTH/2+320+10, (int)(FRAMEHEIGHT/3)+152);			
+			//Minotaur description
+			g.drawString("Chases you. Get caught", FRAMEWIDTH/2+320+10, (int)(FRAMEHEIGHT/3)+180);			
+			g.drawString("and you lose", FRAMEWIDTH/2+320+10, (int)(FRAMEHEIGHT/3)+200);			
+
+			//Press Enter to start
+			g.setColor(titleColor);
+			g.fillRect(FRAMEWIDTH-250, FRAMEHEIGHT-100, 230, 50);
+			g.setColor(textColor);
+			g.setFont(new Font(font,Font.PLAIN,20));
+			g.drawString("'Enter' to continue",FRAMEWIDTH-215,FRAMEHEIGHT-70);
+			
+			//Press 'Back' to back
+			g.setColor(titleColor);
+			g.fillRect(20, FRAMEHEIGHT-100, 230, 50);
+			g.setColor(textColor);
+			g.setFont(new Font(font,Font.PLAIN,20));
+			g.drawString("'Backspace' to back",42,FRAMEHEIGHT-70);
+			
+		//Difficulty options page:
+		}else if(counter == 2) { //--------------------------------------------------------------------------------------------------
+			//background
+			g.setColor(optionsColor);
+			g.fillRect(0,0,FRAMEWIDTH,FRAMEHEIGHT);
+			//title/subtitle
+			g.setColor(titleColor);
+			g.setFont(new Font(font,Font.BOLD, 50));
+			g.drawString("Select Difficulty", FRAMEWIDTH/2-200, FRAMEHEIGHT/6);
+			g.setFont(new Font(font,Font.PLAIN, 30));
+			g.drawString("Minotaur speed depends on your selected difficulty",FRAMEWIDTH/2-345, FRAMEHEIGHT/6+45);			
+			//brown-box
+			g.fillRect(FRAMEWIDTH/2-310, (int)(FRAMEHEIGHT/6)+130, 610, 220);
+
+			
+			g.setFont(new Font(font,Font.BOLD, 20));
+			g.drawString("Press key (1 - 4) to start game:",FRAMEWIDTH/2-310, FRAMEHEIGHT/6+120);
+			g.setColor(Color.GREEN);
+			g.drawString("(1) - Easy",FRAMEWIDTH/2-280, FRAMEHEIGHT/6+170);
+			g.setColor(Color.CYAN);
+			g.drawString("(2) - Normal",FRAMEWIDTH/2-280, FRAMEHEIGHT/6+220);
+			g.setColor(Color.BLUE);
+			g.drawString("(3) - Hard",FRAMEWIDTH/2-280, FRAMEHEIGHT/6+270);
+			g.setColor(Color.RED);
+			g.drawString("(4) - Impossible",FRAMEWIDTH/2-280, FRAMEHEIGHT/6+320);
+			g.setFont(new Font(font,Font.PLAIN, 20));
+			g.setColor(Color.GREEN);
+			g.drawString(":: You can do this with you eyes closed",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+170);
+			g.setColor(Color.CYAN);
+			g.drawString(":: Okay you'll probably need to peak a bit.",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+220);
+			g.setColor(Color.BLUE);
+			g.drawString(":: Are you ready to run?",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+270);
+			g.setColor(Color.RED);
+			g.drawString(":: You will not win. See you in heaven.",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+320);
+
+			//Press 'Back' to back
+			g.setColor(titleColor);
+			g.fillRect(20, FRAMEHEIGHT-100, 230, 50);
+			g.setColor(textColor);
+			g.setFont(new Font(font,Font.PLAIN,20));
+			g.drawString("'Backspace' to back",42,FRAMEHEIGHT-70);
+
+			
+		
+		}else {//------------------------------------------------------------------------------------------------------------------------
 		//Maze Background
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0,FRAMEWIDTH, FRAMEHEIGHT);
@@ -248,18 +368,18 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		Area p = new Area(new Rectangle2D.Double(playerX,playerY,N+1,N+1)); 
 		
 		//Key visibility under reduced visibility
-		if(keyOneActive && (minoVis ^ minoVisCounter==0)) {
-		Area key1 = new Area(new Ellipse2D.Double(keyOneX-30,keyOneY-30,75,75));
+		if(keyOneActive) {
+		Area key1 = new Area(new Ellipse2D.Double(keyOneX-N/2,keyOneY-N/2,1.5*N,1.5*N));
 		a1.subtract(key1);
-		}else if(keyTwoActive && (minoVis ^ minoVisCounter==0)) {
-		Area key2 = new Area(new Ellipse2D.Double(keyTwoX-30,keyTwoY-30,75,75));
+		}else if(keyTwoActive) {
+		Area key2 = new Area(new Ellipse2D.Double(keyTwoX-N/2,keyTwoY-N/2,1.5*N,1.5*N));
 		a1.subtract(key2);
 		}
-		if(keyThreeActive && (minoVis ^ minoVisCounter==0)) {
-		Area key3 = new Area(new Ellipse2D.Double(keyThreeX-30,keyThreeY-30,75,75));
+		if(keyThreeActive) {
+		Area key3 = new Area(new Ellipse2D.Double((int)(keyThreeX-N/2),(int)(keyThreeY-N/2),1.5*N,1.5*N));
 		a1.subtract(key3);
-		} else if(keyFourActive && (minoVis ^ minoVisCounter==0)) {
-		Area key4 = new Area(new Ellipse2D.Double(keyFourX-30,keyFourY-30,75,75));
+		} else if(keyFourActive) {
+		Area key4 = new Area(new Ellipse2D.Double((int)(keyFourX-N/2),(int)(keyFourY-N/2),1.5*N,1.5*N));
 		a1.subtract(key4);
 		}
 		
@@ -365,6 +485,15 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			g.setFont(new Font(font,Font.BOLD, 30));
 			g.drawString("Oh no,", playerX-210, playerY+N/2);
 			g.drawString("You were slain!", playerX-270, playerY+3*N/2);
+			
+			//Press Enter to start
+			g.setColor(Color.BLACK);
+			g.fillRect(FRAMEWIDTH-250, FRAMEHEIGHT-100, 230, 50);
+			g.setColor(new Color(201, 201, 201));
+			g.setFont(new Font(font,Font.PLAIN,20));
+			g.drawString("'Enter' to restart",FRAMEWIDTH-205,FRAMEHEIGHT-70);
+			
+
 		}
 		} else {
 			if(minoVisCounter > 1 && playerX == minoX && playerY == minoY) {
@@ -374,6 +503,14 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 				g.setFont(new Font(font,Font.BOLD, 30));
 				g.drawString("Oh no,", playerX-210, playerY+N/2);
 				g.drawString("You were slain!", playerX-270, playerY+3*N/2);
+				
+				//Press Enter to start
+				g.setColor(new Color(84,0,0));
+				g.fillRect(FRAMEWIDTH-250, FRAMEHEIGHT-100, 230, 50);
+				g.setColor(new Color(201, 201, 201));
+				g.setFont(new Font(font,Font.PLAIN,20));
+				g.drawString("'Enter' to restart",FRAMEWIDTH-205,FRAMEHEIGHT-70);
+
 			}
 		//Changes Win string location when no visibility
 		winStringX = 820;
@@ -394,12 +531,12 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			g.setFont(new Font(font,Font.CENTER_BASELINE,30));
 			g.drawString("Press Enter to restart", restartStringX, restartStringY);
 		}
-		//Keys collected sidn
+		//Keys collected sign
 		g.setColor(Color.GREEN);
 		g.setFont(new Font(font,Font.BOLD, 20));
 		g.drawString("Keys Collected: " + keysCollected, 40, 40);
-		
 		}
+		
 	}
 	
 //methods	
@@ -452,7 +589,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		//code for having the Minotaur chase
 		//Player has to move from starting position for counter to start
 		counterTimer++;
-		if(((coorRow > 10 || coorRow < 6) || coorCol > 3) && play && counterTimer >= MINOSPEED) {
+		if(((coorRow > 10 || coorRow < 6) || coorCol > 3) && play && counterTimer >= minospeed) {
 			active = true;			
 			new Minotaur(minoRow,minoCol,coorRow,coorCol,maze.maze);
 			
@@ -508,26 +645,74 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			if(maze.maze[coorRow][coorCol].getRight() != null && play == true)
 				moveRight();						//player moves right
 		}
+		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+			if(counter==3) {
+				coorRow = COORROW;
+				coorCol = COORCOL;
+				playerX = PLAYERX;									//playerX pixel location
+				playerY = PLAYERY;						//playerY pixel location
+				
+				//If you want minotaur to start at last position, comment out the following 4 lines:
+				minoX = PLAYERX;
+				minoY = PLAYERY;
+				minoRow = COORROW;
+				minoCol = COORCOL;
+				minoVisCounter = 0;
+				
+				//keys
+				keysActive = true;
+				keyOneActive = false;
+				keyTwoActive = false;
+				keyThreeActive = false;
+				keyFourActive = false;
+				keysCollected = 0;
+			}
+			counter--;
+			play=false;
+			
+		}
 		if(e.getKeyCode() == KeyEvent.VK_1) {
-			if(counter==1) {
+			if(counter==2) {
+			counter++;
 			visibility = true;
 			play = true;
-			counter++;
+			minospeed=55;
 			}
 		}
 		if(e.getKeyCode() == KeyEvent.VK_2) {
-			if(counter == 1) {
-			visibility = false;
-			play = true;
+			if(counter==2) {
 			counter++;
+			visibility = true;
+			play = true;
+			minospeed=34;
 			}
 		}
+		if(e.getKeyCode() == KeyEvent.VK_3) {
+			if(counter==2) {
+			counter++;
+			visibility = true;
+			play = true;
+			minospeed=24;
+			}
+		}
+		if(e.getKeyCode() == KeyEvent.VK_4 && counter==2) {
+			if(counter==2) {
+			counter++;
+			visibility = true;
+			play = true;
+			minospeed=12;
+			}
+		}
+		
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			switch(counter) {		//Changes screens or restarts game
 			case 0:					//Leaves title page
 				counter++;
 				break;
-			case 2:					//regenerate maze
+			case 1:
+				counter++;
+				break;
+			case 3:					//regenerate maze
 				if(!play) {
 					coorRow = COORROW;
 					coorCol = COORCOL;

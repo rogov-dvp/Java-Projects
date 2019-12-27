@@ -3,7 +3,7 @@ package parts;
 /*
 This class is the Minotaur.
 Its purposes is to find the closest route to the player and move to towards the player
-Dijkstra's algorithm for finding shortest path
+algorithm for finding shortest path
 */
 public class Minotaur {
 	private int coorRow;
