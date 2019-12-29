@@ -99,7 +99,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	//In-game Objects and locations
 	private int ballEndX = ancX+MAZEX*N+N/4;				//finish line(or ball) x pixel location
 	private int ballEndY = ancY+(N*MAZEY)/2+N/4 +N;			//finish line(or ball) y pixel location
-	private boolean visibility = false;
+	private boolean fogVisibility = false;
 	private int keysCollected = 0;		
 	private boolean keysActive = true;						//determines if key is visible under reduced visibility
 	private int rand1 = 0;									//used for randomely selecting one left side key
@@ -361,7 +361,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		g.fillOval(minoX, minoY, N, N);
 		}
 		//Reduce visibility
-		if(visibility) { 
+		if(fogVisibility) { 
 		g.setColor(Color.DARK_GRAY);
 		Area a1 = new Area(new Rectangle2D.Double(0, 0, 1100, 600)); 							//grey screen around 
 		Area a3 = new Area(new Ellipse2D.Double(ballEndX-30, ballEndY-30, 75, 75));				//spotlight around finish line
@@ -628,44 +628,33 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) 	//exit game. maybe give a prompt
 			System.exit(0);
 		if(e.getKeyCode() == KeyEvent.VK_V)
-			visibility = !visibility;
+			fogVisibility = !fogVisibility;
 		if(e.getKeyCode() == KeyEvent.VK_UP) {	
 			if(maze.maze[coorRow][coorCol].getUp() != null && play == true)
-				moveUp();							//player moves up 
+				moveUp();							//player moves up
+				startVis();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
 			if(maze.maze[coorRow][coorCol].getDown() != null && play == true)
 				moveDown();							//player moves down
+				startVis();
+
 		}
 		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 			if(maze.maze[coorRow][coorCol].getLeft() != null && play == true)
 				moveLeft();							//player moves left
+				startVis();
+
 		}
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			if(maze.maze[coorRow][coorCol].getRight() != null && play == true)
 				moveRight();						//player moves right
+				startVis();
+
 		}
 		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 			if(counter==3) {
-				coorRow = COORROW;
-				coorCol = COORCOL;
-				playerX = PLAYERX;									//playerX pixel location
-				playerY = PLAYERY;						//playerY pixel location
-				
-				//If you want minotaur to start at last position, comment out the following 4 lines:
-				minoX = PLAYERX;
-				minoY = PLAYERY;
-				minoRow = COORROW;
-				minoCol = COORCOL;
-				minoVisCounter = 0;
-				
-				//keys
-				keysActive = true;
-				keyOneActive = false;
-				keyTwoActive = false;
-				keyThreeActive = false;
-				keyFourActive = false;
-				keysCollected = 0;
+				reset();
 			}
 			counter--;
 			play=false;
@@ -674,7 +663,6 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(e.getKeyCode() == KeyEvent.VK_1) {
 			if(counter==2) {
 			counter++;
-			visibility = true;
 			play = true;
 			minospeed=55;
 			}
@@ -682,25 +670,22 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(e.getKeyCode() == KeyEvent.VK_2) {
 			if(counter==2) {
 			counter++;
-			visibility = true;
 			play = true;
-			minospeed=34;
+			minospeed=36;
 			}
 		}
 		if(e.getKeyCode() == KeyEvent.VK_3) {
 			if(counter==2) {
 			counter++;
-			visibility = true;
 			play = true;
-			minospeed=24;
+			minospeed=26;
 			}
 		}
-		if(e.getKeyCode() == KeyEvent.VK_4 && counter==2) {
+		if(e.getKeyCode() == KeyEvent.VK_4) {
 			if(counter==2) {
 			counter++;
-			visibility = true;
 			play = true;
-			minospeed=12;
+			minospeed=14;
 			}
 		}
 		
@@ -714,28 +699,8 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 				break;
 			case 3:					//regenerate maze
 				if(!play) {
-					coorRow = COORROW;
-					coorCol = COORCOL;
-					playerX = PLAYERX;									//playerX pixel location
-					playerY = PLAYERY;						//playerY pixel location
-					
-					//If you want minotaur to start at last position, comment out the following 4 lines:
-					minoX = PLAYERX;
-					minoY = PLAYERY;
-					minoRow = COORROW;
-					minoCol = COORCOL;
-					minoVisCounter = 0;
-					
-					//keys
-					keysActive = true;
-					keyOneActive = false;
-					keyTwoActive = false;
-					keyThreeActive = false;
-					keyFourActive = false;
-					keysCollected = 0;
-					
+					reset();
 					maze = new MazeGenerator(MAZEX,MAZEY);
-					play = true;
 					repaint();
 				}
 				break;
@@ -761,6 +726,34 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	public void moveRight() {
 		coorCol++;
 		playerX+=N;							
+	}
+	public void startVis() {
+		fogVisibility= true;
+	}
+	public void reset() {
+		coorRow = COORROW;
+		coorCol = COORCOL;
+		playerX = PLAYERX;									//playerX pixel location
+		playerY = PLAYERY;						//playerY pixel location
+		
+		//If you want minotaur to start at last position, comment out the following 4 lines:
+		minoX = PLAYERX;
+		minoY = PLAYERY;
+		minoRow = COORROW;
+		minoCol = COORCOL;
+		minoVisCounter = 0;
+		
+		//keys
+		keysActive = true;
+		keyOneActive = false;
+		keyTwoActive = false;
+		keyThreeActive = false;
+		keyFourActive = false;
+		keysCollected = 0;
+		//game
+		fogVisibility = false;
+		play = true;
+
 	}
 
 }
