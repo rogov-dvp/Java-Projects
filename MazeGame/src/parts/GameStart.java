@@ -753,7 +753,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		//game
 		fogVisibility = false;
 		play = true;
-
+		System.out.println("hehexd");
 	}
 
 }
