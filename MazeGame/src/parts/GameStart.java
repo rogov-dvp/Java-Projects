@@ -157,18 +157,23 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		Painting paint = new Painting(g,FRAMEWIDTH,FRAMEHEIGHT,N,font,enterColor,optionsColor,startColor,textColor,titleColor,winColor);
 		
 		
-		//opening page
-		if(!play && page == 0) {
+		//page 0: opening page
+		if(page == 0) {
 			
 			paint.titlePage();
 			
-		//options page 1: Controls/Gameplay
-		} else if(!play && page == 1) {	
+		//page 1: Objective of game 
+		} else if(page == 1) {
+			
+			paint.objectiveOfGamePage();
+			
+		//options page 2: Controls/Gameplay
+		} else if(page == 2) {
 			
 			paint.descriptionPage();
 			
-		//Difficulty options page:
-		}else if(page == 2) { 
+		//page 3: Difficulty options 
+		}else if(page == 3) { 
 			
 			paint.difficultyOptionPage();
 			
@@ -488,7 +493,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 
 		}
 		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-			if(page==3) {
+			if(page==4) {
 				reset();
 			}
 			page--;
@@ -496,28 +501,28 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			
 		}
 		if(e.getKeyCode() == KeyEvent.VK_1) {
-			if(page==2) {
+			if(page==3) {
 			page++;
 			play = true;
 			minospeed=55;
 			}
 		}
 		if(e.getKeyCode() == KeyEvent.VK_2) {
-			if(page==2) {
+			if(page==3) {
 			page++;
 			play = true;
 			minospeed=36;
 			}
 		}
 		if(e.getKeyCode() == KeyEvent.VK_3) {
-			if(page==2) {
+			if(page==3) {
 			page++;
 			play = true;
 			minospeed=26;
 			}
 		}
 		if(e.getKeyCode() == KeyEvent.VK_4) {
-			if(page==2) {
+			if(page==3) {
 			page++;
 			play = true;
 			minospeed=14;
@@ -527,12 +532,11 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			switch(page) {		//Changes screens or restarts game
 			case 0:					//Leaves title page
-				page++;
-				break;
 			case 1:
+			case 2:
 				page++;
 				break;
-			case 3:					//regenerate maze
+			case 4:					//regenerate maze
 				if(!play) {
 					reset();		//(resets object locations)=> new game/restart same match
 					maze = new MazeGenerator(MAZEX,MAZEY);

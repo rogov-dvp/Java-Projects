@@ -47,6 +47,31 @@ public class Painting extends JPanel implements PaintingTypes{
 		paintString(titleColor,new Font(font,Font.BOLD, 50),"Malzar's Maze", (int)(FRAMEWIDTH/3), (int)(FRAMEHEIGHT/3));
 		paintString(enterColor,new Font(font,Font.CENTER_BASELINE,36),"Press Enter", (int)(FRAMEWIDTH/3.2)+84, (int)(FRAMEHEIGHT/3)+80);
 	}
+	public void objectiveOfGamePage() {
+		//background
+		fillRectangle(new Color(41,33,33),0,0,FRAMEWIDTH,FRAMEHEIGHT);
+		//title
+		paintString(textColor,new Font(font,Font.BOLD, 50),"Objective of Game", FRAMEWIDTH/2-230, FRAMEHEIGHT/6);
+		//mini-background
+		fillRectangle(new Color(238,223,166),FRAMEWIDTH/2-320, (int)(FRAMEHEIGHT/6)+45, 630, 385);
+		//content
+		paintString(new Color(24, 24, 22),new Font(font,Font.ITALIC, 15),"Date: July 14, 1644  ~ hypothesized", FRAMEWIDTH/2-280, FRAMEHEIGHT/4+15);
+		paintString(new Color(24, 24, 22),new Font(font,Font.ITALIC, 15),"Time: Unknown ", FRAMEWIDTH/2-280, FRAMEHEIGHT/4+35);		
+		paintString(new Color(24, 24, 22),new Font(font,Font.ITALIC, 15),"EXPEDITION JOURNAL", FRAMEWIDTH/2+120, FRAMEHEIGHT/4+15);	
+		paintString(new Color(24, 24, 22),new Font(font,Font.ITALIC, 15),"Page 134 / 140", FRAMEWIDTH/2+120, FRAMEHEIGHT/4+35);		
+
+		
+		paintString(new Color(24, 24, 22),new Font(font,Font.ITALIC, 20),"\"Last day in months of adventuring deep underground", FRAMEWIDTH/2-300, FRAMEHEIGHT/3+25);
+		paintString(new Color(24, 24, 22),new Font(font,Font.ITALIC, 20),"the unexplored Malzar's Maze, I have arrived to", FRAMEWIDTH/2-300, FRAMEHEIGHT/3+60);
+		paintString(new Color(24, 24, 22),new Font(font,Font.ITALIC, 20),"what I think is the treasure chamber. Finally,", FRAMEWIDTH/2-300, FRAMEHEIGHT/3+95);
+		paintString(new Color(24, 24, 22),new Font(font,Font.ITALIC, 20),"the time for me to collect the two white keys and", FRAMEWIDTH/2-300, FRAMEHEIGHT/3+130);
+		paintString(new Color(24, 24, 22),new Font(font,Font.ITALIC, 20),"the gold key if to make this adventure a success.", FRAMEWIDTH/2-300, FRAMEHEIGHT/3+165);
+
+		paintString(new Color(24, 24, 22),new Font(font,Font.ITALIC, 20),"However, haste is of the essence.", FRAMEWIDTH/2-300, FRAMEHEIGHT/3+215);
+		paintString(new Color(24, 24, 22),new Font(font,Font.ITALIC, 20),"The bellow sounds rattling the surrounding stones ", FRAMEWIDTH/2-270, FRAMEHEIGHT/3+250);
+		paintString(new Color(24, 24, 22),new Font(font,Font.ITALIC, 20),"are undoubtedly approaching...\"", FRAMEWIDTH/2, FRAMEHEIGHT/3+285);
+
+	}
 	public void descriptionPage() {
 		fillRectangle(optionsColor,0,0,FRAMEWIDTH,FRAMEHEIGHT);
 		//Lines to separate 'Controls' and 'Gameplay' and subtitles
@@ -110,16 +135,16 @@ public class Painting extends JPanel implements PaintingTypes{
 		paintString(textColor,new Font(font,Font.PLAIN,20),"'Backspace' to back",42,FRAMEHEIGHT-70);
 	}
 	public void difficultyOptionPage() {
-		//(Rectangle)=>Background
+		//Background
 		fillRectangle(optionsColor,0,0,FRAMEWIDTH,FRAMEHEIGHT);
-		//(String)=>title
+		//title
 		paintString(titleColor,new Font(font,Font.BOLD, 50),"Select Difficulty", FRAMEWIDTH/2-200, FRAMEHEIGHT/6);
-		//(String)=>subtitle
+		//subtitle
 		paintString(titleColor,new Font(font,Font.BOLD, 30),"Minotaur speed depends on your selected difficulty",FRAMEWIDTH/2-345, FRAMEHEIGHT/6+45);
-		//(Rectangle)=>mini-background
+		//mini-backgrounds for content
 		fillRectangle(titleColor,FRAMEWIDTH/2-310, (int)(FRAMEHEIGHT/6)+130, 610, 220);
 		
-		//(String)=>Diffculty-settings
+		//Diffculty-settings/content
 		paintString(titleColor,new Font(font,Font.BOLD, 20),"Press key (1 - 4) to start game:",FRAMEWIDTH/2-310, FRAMEHEIGHT/6+120);
 		paintString(Color.GREEN,new Font(font,Font.BOLD, 20),"(1) - Easy",FRAMEWIDTH/2-280, FRAMEHEIGHT/6+170);
 		paintString(Color.CYAN,new Font(font,Font.BOLD, 20),"(2) - Normal",FRAMEWIDTH/2-280, FRAMEHEIGHT/6+220);
@@ -130,7 +155,7 @@ public class Painting extends JPanel implements PaintingTypes{
 		paintString(Color.BLUE,new Font(font,Font.PLAIN, 20),":: Are you ready to run?",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+270);
 		paintString(Color.RED,new Font(font,Font.PLAIN, 20),":: You will not win. See you in heaven.",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+320);
 		
-		//('Backspace' to back)=>Naviation
+		//'Backspace' to back
 		fillRectangle(titleColor,20, FRAMEHEIGHT-100, 230, 50);
 		paintString(textColor,new Font(font,Font.PLAIN,20),"'Backspace' to back",42,FRAMEHEIGHT-70);
 
