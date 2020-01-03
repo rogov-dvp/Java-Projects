@@ -146,15 +146,11 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		String font = "Helvetica";
-		Color enterColor = new Color(255, 232, 181);//~light beige
-		Color optionsColor = new Color(201, 159, 66); //orange/brown/woody/dirt
 		Color startColor = new Color(227, 128, 57); //~Orange/brown
-		Color textColor = new Color(255, 240, 194);	//Lighten-Light beige
-		Color titleColor = new Color(54, 29, 11);	//~Dark Hazelnut color
 		Color winColor = new Color(81, 245, 92);	//~Greenish
 
 		//Cleaning up drawing through de-coupling:
-		Painting paint = new Painting(g,FRAMEWIDTH,FRAMEHEIGHT,N,font,enterColor,optionsColor,startColor,textColor,titleColor,winColor);
+		Painting paint = new Painting(g,FRAMEWIDTH,FRAMEHEIGHT,N);
 		
 		
 		//page 0: opening page
