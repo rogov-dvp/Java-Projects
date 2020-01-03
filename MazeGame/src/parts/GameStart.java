@@ -146,7 +146,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		String font = "Helvetica";
-		Color startColor = new Color(227, 128, 57); //~Orange/brown
+		Color playerColor = new Color(227, 128, 57); //player~Orange/brown
 		Color winColor = new Color(81, 245, 92);	//~Greenish
 
 		//Cleaning up drawing through de-coupling:
@@ -177,7 +177,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		//Maze Background
 		paint.fillRectangle(Color.BLACK,0, 0,FRAMEWIDTH, FRAMEHEIGHT);	
 		//player
-		paint.fillOval(startColor, playerX,playerY,N,N);
+		paint.fillOval(playerColor, playerX,playerY,N,N);
 		
 		//Build borders | up,right,bottom,left					//
 		for(int i = 0; i < MAZEY+2; i++) {					//horizontal. x-axis
@@ -362,7 +362,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		paint.fillOval(new Color(255,215,0),ballEndX, ballEndY, N/2, N/2);
 		if(playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4) && keysCollected == 2) {
 			paint.paintString(winColor, new Font(font,Font.BOLD, 45), "You Win", winStringX, winStringY);			
-			paint.paintString(startColor, new Font(font,Font.CENTER_BASELINE,30), "Press Enter to restart", restartStringX, restartStringY);
+			paint.paintString(playerColor, new Font(font,Font.CENTER_BASELINE,30), "Press Enter to restart", restartStringX, restartStringY);
 
 		}
 		//Keys collected sign

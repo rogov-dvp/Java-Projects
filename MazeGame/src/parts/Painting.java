@@ -2,7 +2,6 @@ package parts;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -15,15 +14,11 @@ public class Painting extends JPanel implements PaintingTypes{
 	private int FRAMEHEIGHT;
 	private int N;
 	String font = "Helvetica";
-	Color enterColor = new Color(255, 232, 181);//~light beige
-	Color optionsColor = new Color(201, 159, 66); //orange/brown/woody/dirt
-	Color startColor = new Color(227, 128, 57); //~Orange/brown
-	Color textColor = new Color(255, 240, 194);	//Lighten-Light beige
-	Color titleColor = new Color(54, 29, 11);	//~Dark Hazelnut color
+	Color playerColor = new Color(227, 128, 57); //player~Orange/brown
 	Color winColor = new Color(81, 245, 92);	//~Greenish
-	Color darkInk = new Color(41,33,33);
-    Color textInk = new Color(24, 24, 22);
-	Color papyrus = new Color(238,223,166);
+	Color darkInk = new Color(41,33,33);		// blackish/grey color
+    Color textInk = new Color(24, 24, 22);		// dark ink color
+	Color papyrus = new Color(238,223,166);		//beigeish
 	
 	public Painting(Graphics g, int FRAMEWIDTH, int FRAMEHEIGHT, int N) {
 		this.g = g;
@@ -43,7 +38,7 @@ public class Painting extends JPanel implements PaintingTypes{
 		//background
 		fillRectangle(darkInk,0,0,FRAMEWIDTH,FRAMEHEIGHT);
 		//title
-		paintString(papyrus,new Font(font,Font.BOLD, 50),"Objective of Game", FRAMEWIDTH/2-230, FRAMEHEIGHT/6);
+		paintString(papyrus,new Font(font,Font.BOLD, 50),"Background Story", FRAMEWIDTH/2-220, FRAMEHEIGHT/6);
 		//mini-background
 		fillRectangle(papyrus,FRAMEWIDTH/2-320, (int)(FRAMEHEIGHT/6)+45, 630, 385);
 		//content
@@ -75,7 +70,6 @@ public class Painting extends JPanel implements PaintingTypes{
 		paintLine(papyrus,FRAMEWIDTH/2+50, (int)(FRAMEHEIGHT/3)+2, FRAMEWIDTH-50, (int)(FRAMEHEIGHT/3)+2);
 		//(mini-background layer)=>content
 		fillRectangle(papyrus, 315, (int)(FRAMEHEIGHT/3)+20, 120, 190);
-//		fillRectangle(papyrus, FRAMEWIDTH/2+210, (int)(FRAMEHEIGHT/3)+20, 70, 190);
 		fillRectangle(papyrus, FRAMEWIDTH/2+320, (int)(FRAMEHEIGHT/3)+20, 180, 190);
 		
 		//(Controls)=>title
@@ -103,7 +97,7 @@ public class Painting extends JPanel implements PaintingTypes{
 		paintString(papyrus,new Font(font,Font.BOLD, 25),"Gold key:", FRAMEWIDTH/2+50, (int)(FRAMEHEIGHT/3)+150);
 		paintString(papyrus,new Font(font,Font.BOLD, 25),"Minotaur:", FRAMEWIDTH/2+50, (int)(FRAMEHEIGHT/3)+200);
 		//drawing of object
-		fillOval(startColor,FRAMEWIDTH/2+228,(int)(FRAMEHEIGHT/3)+30,N,N);	//player
+		fillOval(playerColor,FRAMEWIDTH/2+228,(int)(FRAMEHEIGHT/3)+30,N,N);	//player
 		fillOval(Color.WHITE,FRAMEWIDTH/2+236,(int)(FRAMEHEIGHT/3)+85,N/2,N/2);	//white key
 		fillOval(new Color(255,215,0),FRAMEWIDTH/2+236,(int)(FRAMEHEIGHT/3)+130,N/2,N/2);	//gold key
 		fillOval(Color.RED,FRAMEWIDTH/2+228,(int)(FRAMEHEIGHT/3)+170,N,N); // Minotaur
@@ -133,7 +127,7 @@ public class Painting extends JPanel implements PaintingTypes{
 		//title
 		paintString(papyrus,new Font(font,Font.BOLD, 50),"Select Difficulty", FRAMEWIDTH/2-200, FRAMEHEIGHT/6);
 		//subtitle
-		paintString(papyrus,new Font(font,Font.BOLD, 30),"Minotaur speed depends on your selected difficulty",FRAMEWIDTH/2-345, FRAMEHEIGHT/6+45);
+		paintString(papyrus,new Font(font,Font.BOLD, 30),"Minotaur speed depends on your selected difficulty",FRAMEWIDTH/2-365, FRAMEHEIGHT/6+45);
 		
 		//Diffculty-settings/content
 		paintString(papyrus,new Font(font,Font.BOLD, 20),"Press key (1 - 4) to start game:",FRAMEWIDTH/2-310, FRAMEHEIGHT/6+120);
@@ -142,12 +136,11 @@ public class Painting extends JPanel implements PaintingTypes{
 		paintString(Color.BLUE,new Font(font,Font.BOLD, 20),"(3) - Hard",FRAMEWIDTH/2-280, FRAMEHEIGHT/6+270);
 		paintString(Color.RED,new Font(font,Font.BOLD, 20),"(4) - Impossible",FRAMEWIDTH/2-280, FRAMEHEIGHT/6+320);
 		paintString(Color.GREEN,new Font(font,Font.PLAIN, 20),":: You can do this with you eyes closed",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+170);
-		paintString(Color.CYAN,new Font(font,Font.PLAIN, 20),":: Okay you'll probably need to peak a bit.",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+220);
+		paintString(Color.CYAN,new Font(font,Font.PLAIN, 20),":: Okay you'll probably need to peak a bit",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+220);
 		paintString(Color.BLUE,new Font(font,Font.PLAIN, 20),":: Are you ready to run?",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+270);
-		paintString(Color.RED,new Font(font,Font.PLAIN, 20),":: You will not win. See you in heaven.",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+320);
+		paintString(Color.RED,new Font(font,Font.PLAIN, 20),":: You will not win",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+320);
 		
 		//'Backspace' to back
-		nextTab();
 		backTab();
 
 	}
