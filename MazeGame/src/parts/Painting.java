@@ -2,6 +2,7 @@ package parts;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -58,9 +59,10 @@ public class Painting extends JPanel implements PaintingTypes{
 		paintString(textInk,new Font(font,Font.ITALIC, 20),"The bellow sounds rattling the surrounding stones ", FRAMEWIDTH/2-270, FRAMEHEIGHT/3+250);
 		paintString(textInk,new Font(font,Font.ITALIC, 20),"are undoubtedly approaching...\"", FRAMEWIDTH/2, FRAMEHEIGHT/3+285);
 
-		//navigation
-		nextTab();
-		backTab();
+		//Navigation -> back
+		tab(papyrus,textInk,new Font(font,Font.PLAIN,17),20,FRAMEHEIGHT-45,170,25,17,"'Backspace' for back");
+		//Naviagition -> next
+		tab(papyrus,textInk,new Font(font,Font.PLAIN,17),FRAMEWIDTH-190,FRAMEHEIGHT-45,170,25,17,"'Enter' to continue");
 	}
 	public void descriptionPage() {
 		fillRectangle(darkInk,0,0,FRAMEWIDTH,FRAMEHEIGHT);
@@ -116,9 +118,10 @@ public class Painting extends JPanel implements PaintingTypes{
 		paintString(textInk,new Font(font,Font.PLAIN,15),"Chases you. Get caught", FRAMEWIDTH/2+320+10, (int)(FRAMEHEIGHT/3)+180);
 		paintString(textInk,new Font(font,Font.PLAIN,15),"and you lose", FRAMEWIDTH/2+320+10, (int)(FRAMEHEIGHT/3)+200);
 		
-		//navigation
-		nextTab();
-		backTab();
+		//Navigation -> back
+		tab(papyrus,textInk,new Font(font,Font.PLAIN,17),20,FRAMEHEIGHT-45,170,25,17,"'Backspace' for back");
+		//Naviagition -> next
+		tab(papyrus,textInk,new Font(font,Font.PLAIN,17),FRAMEWIDTH-190,FRAMEHEIGHT-45,170,25,17,"'Enter' to continue");
 		
 	}
 	public void difficultyOptionPage() {
@@ -140,9 +143,8 @@ public class Painting extends JPanel implements PaintingTypes{
 		paintString(Color.BLUE,new Font(font,Font.PLAIN, 20),":: Are you ready to run?",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+270);
 		paintString(Color.RED,new Font(font,Font.PLAIN, 20),":: You will not win",FRAMEWIDTH/2-80, FRAMEHEIGHT/6+320);
 		
-		//'Backspace' to back
-		backTab();
-
+		//Navigation -> back
+		tab(papyrus,textInk,new Font(font,Font.PLAIN,17),20,FRAMEHEIGHT-45,170,25,17,"'Backspace' for back");
 	}
 	
 	
@@ -168,39 +170,26 @@ public class Painting extends JPanel implements PaintingTypes{
 		g.drawString(s, x, y); 
 	}
 	
-	public void nextTab() {
-		int x = FRAMEWIDTH - 190;
-		int y = FRAMEHEIGHT - 45;
-		int length = 170;
-		int height = 25;
-		int fontSize = 17;
-		String text = "'Enter' to continue";
-
-		int strX = 140;						//Pixel length of text . not working: metrics.stringWidth(text)
-		int padX = (length - strX)/2 + x;							//Centers text horizontally
-		int padY = (FRAMEHEIGHT-height - y+fontSize)/2 + y;			//Centers text vertically
+	//centers text inside a rectangle background. single box and single text only
+	public void tab(Color bg, Color sc, Font f ,int x1, int y1, int l, int h1, int fs, String text1) {
+		int x = x1;				//start pixel x-location of box
+		int y = y1;				//start pixel y-location of box
+		int length = l;			//width of box
+		int height = h1;		//height of box
+		int fontSize = fs;		//size of text font
+		String text = text1;	//String text in box
 		
-		fillRectangle(papyrus,x,y, length, height);
-		paintString(textInk,new Font(font,Font.PLAIN,fontSize),text,padX,padY);
-
-	}
-	public void backTab() {
-		int x = 20;					//pixel x start
-		int y = FRAMEHEIGHT - 45;	//pixel y start
-		int length = 170;			
-		int height = 25;
-		int fontSize = 17;											//pixel height of text
-		String text = "'Backspace' for back";
+		FontMetrics metrics = g.getFontMetrics(f);	
+		int h = metrics.getHeight();										//h pixel of height 
+		int strX = metrics.stringWidth(text);								//text pixel of width
 		
-		int strX = 160;						//Pixel length of text // metrics.stringWidth(text) <- not working for some reason
-		int padX = (length - strX)/2 + x;							//Centers text horizontally
-		int padY = (FRAMEHEIGHT-height - y+fontSize)/2 + y;			//Centers text vertically
+		System.out.println(h);
 		
-
+		int padX = Math.abs(length - strX)/2 + x;							//Centers text horizontally
+		int padY = (int)((Math.abs(height-h))/2 + y + fontSize);			//Centers text vertically.
 		
-		fillRectangle(papyrus,x,y, length, height);
-		paintString(textInk,new Font(font,Font.PLAIN,fontSize),text,padX,padY);
-
+		fillRectangle(bg,x,y, length, height);
+		paintString(sc,f,text,padX,padY);
 	}
 
 

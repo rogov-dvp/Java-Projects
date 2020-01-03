@@ -148,6 +148,9 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		String font = "Helvetica";
 		Color playerColor = new Color(227, 128, 57); //player~Orange/brown
 		Color winColor = new Color(81, 245, 92);	//~Greenish
+		Color papyrus = new Color(238,223,166);		//beigeish
+		Color slainRed = new Color(84,0,0);			//used when slain
+		Color slainText = new Color(201, 201, 201);	//text color that goes along with being slain
 
 		//Cleaning up drawing through de-coupling:
 		Painting paint = new Painting(g,FRAMEWIDTH,FRAMEHEIGHT,N);
@@ -329,27 +332,29 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		//Minotaur, If caught with reduced-visibility
 
 		if(minoVisCounter > 1 && playerX == minoX && playerY == minoY) {
-			g.setColor(new Color(84,0,0));
+			g.setColor(slainRed);
 			g2d.fill(a1);
 			
 			paint.fillRectangle(Color.BLACK, playerX-280,playerY-N/2,238,86);
-			paint.paintString(new Color(201, 201, 201),new Font(font,Font.BOLD, 30),"Oh no,", playerX-210, playerY+N/2);
-			paint.paintString(new Color(201, 201, 201),new Font(font,Font.BOLD, 30),"You were slain!", playerX-270, playerY+3*N/2);
+			paint.paintString(slainText,new Font(font,Font.BOLD, 30),"Oh no,", playerX-210, playerY+N/2);
+			paint.paintString(slainText,new Font(font,Font.BOLD, 30),"You were slain!", playerX-270, playerY+3*N/2);
 			//Press Enter to start
-			paint.fillRectangle(Color.BLACK,FRAMEWIDTH-250, FRAMEHEIGHT-100, 230, 50);
-			paint.paintString(new Color(201, 201, 201), new Font(font,Font.PLAIN,20), "'Enter' to restart",FRAMEWIDTH-205,FRAMEHEIGHT-70);
+			paint.tab(Color.BLACK, slainText, new Font(font,Font.PLAIN,17), FRAMEWIDTH-230, FRAMEHEIGHT-80, 210, 30, 17, "'Enter' to restart");
+			//Press 'Backspace' to options
+			paint.tab(Color.BLACK, slainText, new Font(font,Font.PLAIN,17), FRAMEWIDTH-230, FRAMEHEIGHT-40, 210, 30, 17, "'Backspace' to options");			
 
 		}
 		} else {
 			//without fog 
 			if(minoVisCounter > 1 && playerX == minoX && playerY == minoY) {
-				paint.fillRectangle(new Color(84,0,0),playerX-280,playerY-N/2,238,86);
-				paint.paintString(new Color(201, 201, 201),new Font(font,Font.BOLD, 30),"Oh no,", playerX-210, playerY+N/2);
-				paint.paintString(new Color(201, 201, 201),new Font(font,Font.BOLD, 30),"You were slain!", playerX-270, playerY+3*N/2);
-//				//Press Enter to start
-				paint.fillRectangle(new Color(84,0,0), FRAMEWIDTH-250, FRAMEHEIGHT-100, 230, 50);
-				paint.paintString(new Color(201, 201, 201), new Font(font,Font.PLAIN,20), "'Enter' to restart",FRAMEWIDTH-205,FRAMEHEIGHT-70);				
-
+				paint.fillRectangle(slainRed,playerX-280,playerY-N/2,238,86);
+				paint.paintString(slainText,new Font(font,Font.BOLD, 30),"Oh no,", playerX-210, playerY+N/2);
+				paint.paintString(slainText,new Font(font,Font.BOLD, 30),"You were slain!", playerX-270, playerY+3*N/2);
+				
+				//Press Enter to restart				
+				paint.tab(slainRed, slainText, new Font(font,Font.PLAIN,17), FRAMEWIDTH-230, FRAMEHEIGHT-80, 210, 30, 17, "'Enter' to restart");
+				//'Backsapce' to options				
+				paint.tab(slainRed, slainText, new Font(font,Font.PLAIN,17), FRAMEWIDTH-230 ,FRAMEHEIGHT-40, 210, 30, 17, "'Backspace' to options");
 			}
 		//Changes Win string location when no visibility
 		winStringX = 820;

@@ -36,4 +36,6 @@
     <fullyQualifiedTypeName name="java.awt.Color"/>
     <fullyQualifiedTypeName name="java.awt.Font"/>
     <fullyQualifiedTypeName name="java.awt.geom.Area"/>
+    <fullyQualifiedTypeName name="com.sun.javafx.tk.FontMetrics"/>
+    <fullyQualifiedTypeName name="java.awt.FontMetrics"/>
 </qualifiedTypeNameHistroy>
