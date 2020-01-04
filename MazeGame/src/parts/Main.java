@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class Main {
 	public static void main(String[] args) {
-	System.out.println(System.getProperty("java.version"));
+	System.out.println("Made with JDK version: " + System.getProperty("java.version"));
 	JFrame obj = new JFrame();							//Frame created
 	obj.setBounds(80,30,1114,635);						//Frame bounds. (x,y,width,height)
 	GameStart gamePlay = new GameStart();					//Creates game

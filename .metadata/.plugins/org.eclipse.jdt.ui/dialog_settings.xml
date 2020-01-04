@@ -45,6 +45,7 @@
 		<item key="FatJarPackageWizardPage.LIBRARY_HANDLING" value="1"/>
 		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
 			<item value="C:\Users\alexa\OneDrive\Documents\languages\Java\PLAYME\Brick-Breaker-Game.jar"/>
+			<item value="C:\Users\alexa\OneDrive\Documents\languages\Java\PLAYME\Malzars-Maze.jar"/>
 			<item value="C:\Users\alexa\OneDrive\Documents\languages\Java\jar_files\Malzars_Maze.jar"/>
 		</list>
 		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
@@ -95,5 +96,8 @@
 		</list>
 	</section>
 	<section name="JavaElementSearchActions">
+	</section>
+	<section name="BuildPathsPropertyPage">
+		<item key="pageIndex" value="2"/>
 	</section>
 </section>

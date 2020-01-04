@@ -18,13 +18,13 @@ public class Stack{
 		}
 	}
 	public int checkDiffX() {
-		if(top.getNext().getNext() == null) {System.out.println("Stack empty");return -2;} 
+		if(top.getNext().getNext() == null) {return -2;} 
 		else {
 			return top.getNext().getNext().getX() - top.getNext().getX();			
 		}
 	}
 	public int checkDiffY() {
-		if(top.getNext().getNext() == null) {System.out.println("Stack empty");return -2;} 
+		if(top.getNext().getNext() == null) {return -2;} 
 		else {
 			return top.getNext().getNext().getY() - top.getNext().getY();			
 	}

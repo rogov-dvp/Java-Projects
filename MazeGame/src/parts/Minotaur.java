@@ -1,5 +1,7 @@
 package parts;
 
+import java.awt.Color;
+
 /*
 This class is the Minotaur.
 Its purposes is to find the closest route to the player and move to towards the player
@@ -95,7 +97,9 @@ public class Minotaur {
 
 
 				}
+
 			}
+			
 	}
 	
 	

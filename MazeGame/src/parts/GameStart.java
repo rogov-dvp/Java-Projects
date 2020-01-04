@@ -124,6 +124,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 	private int restartStringX = 260;
 	private int restartStringY = 275;
 	
+	
 	//One line is (x1,y1 --> x2,y2). 4 lines to make a box
 	//---------------------------------------------------------------------------------------------------------------
 	//         up-border         |        right-border       |       bottom-border      |        left-border		|
@@ -178,7 +179,9 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			
 		}else {
 		//Maze Background
-		paint.fillRectangle(Color.BLACK,0, 0,FRAMEWIDTH, FRAMEHEIGHT);	
+		paint.fillRectangle(Color.BLACK,0, 0,FRAMEWIDTH, FRAMEHEIGHT);
+		//Gold Key
+		paint.fillOval(new Color(255,215,0),ballEndX, ballEndY, N/2, N/2);
 		//player
 		paint.fillOval(playerColor, playerX,playerY,N,N);
 		
@@ -197,8 +200,11 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		
 				if((bits&0b1) == 0b1)
 				paint.paintLine(Color.YELLOW, lX1+N*(i), lY1+N*(j), lX2+N*(i), lY2+N*(j));
+				
 			}
 		}
+		
+		
 		//Keys
 		if(keyOneActive) {
 		paint.fillOval(Color.WHITE, keyOneX, keyOneY, N/2, N/2);
@@ -362,12 +368,15 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		restartStringX = 765;
 		restartStringY = ballEndY+35;
 		
-		}
+			}
 		//finish line ball. Place AFTER visibility reducer
-		paint.fillOval(new Color(255,215,0),ballEndX, ballEndY, N/2, N/2);
 		if(playerX == (ballEndX-N/4) && playerY == (ballEndY-N/4) && keysCollected == 2) {
 			paint.paintString(winColor, new Font(font,Font.BOLD, 45), "You Win", winStringX, winStringY);			
 			paint.paintString(playerColor, new Font(font,Font.CENTER_BASELINE,30), "Press Enter to restart", restartStringX, restartStringY);
+			//Press Enter to restart				
+			paint.tab(slainRed, slainText, new Font(font,Font.PLAIN,17), FRAMEWIDTH-230, FRAMEHEIGHT-80, 210, 30, 17, "'Enter' to restart");
+			//'Backsapce' to options				
+			paint.tab(slainRed, slainText, new Font(font,Font.PLAIN,17), FRAMEWIDTH-230 ,FRAMEHEIGHT-40, 210, 30, 17, "'Backspace' to options");
 
 		}
 		//Keys collected sign
@@ -426,7 +435,11 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		//code for having the Minotaur chase
 		//Player has to move from starting position for counter to start
 		counterTimer++;
-		if(((coorRow > 10 || coorRow < 6) || coorCol > 3) && play && counterTimer >= minospeed) {
+		
+		if((coorRow > 10 || coorRow < 6 || coorCol > 3) && !active) {
+			active = true;			
+		}
+		if((active && counterTimer >= minospeed && play)) {
 			active = true;			
 			new Minotaur(minoRow,minoCol,coorRow,coorCol,maze.maze);
 			
@@ -437,6 +450,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			} else 
 				minoVis=false;
 
+//			System.out.println(counterTimer);
 			if(maze.maze[minoRow][minoCol].getUp() != null && maze.maze[minoRow][minoCol].getUp().isSelected()) {
 				minoRow--;
 				minoY -= N;
@@ -446,16 +460,18 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 			} else if(maze.maze[minoRow][minoCol].getDown() != null && maze.maze[minoRow][minoCol].getDown().isSelected()) {
 				minoRow++;
 				minoY += N;
+
 			}else if(maze.maze[minoRow][minoCol].getLeft() != null && maze.maze[minoRow][minoCol].getLeft().isSelected()) {
 				minoCol--;	
 				minoX -= N;
+
 			} else {
 			}
 			counterTimer=0;
 		}
-		if(counterTimer >= 70) {		//arbitrary number
-			counterTimer = 0;
-		}
+//		if(counterTimer >= 70) {		//arbitrary number
+//			counterTimer = 0;
+//		}
 		
 		repaint();
 	}
@@ -586,6 +602,7 @@ public class GameStart extends JPanel implements KeyListener, ActionListener{
 		minoRow = COORROW;
 		minoCol = COORCOL;
 		minoVisCounter = 0;
+		active = false;
 		
 		//keys
 		keysActive = true;
