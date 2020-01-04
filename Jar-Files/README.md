@@ -4,13 +4,13 @@
 
 ## Checking your JDK version
 
-(1.) Open 'Command Prompt'(Windows) or 'Terminal'(macOS) on your machine.
+(1.) Open 'Command Prompt' (Windows) or 'Terminal' (macOS) on your machine.
 
 (2.) Type ``` java -version ```
 
 (3.) If you get an output that shows "1.7.0 or above". Then running the "Malzars-Maze.jar" should work. If there is an error output, it is most likely that JDK has not been installed.
 
-## Installing JDK if it is not up to date
+## Installing JDK
 
 You can get the latest JDK here : <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">Install latest Java Development Kit (JDK)</a>
 
