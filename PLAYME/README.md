@@ -14,7 +14,7 @@
 
 ## Installing JRE
 
-You can get the latest JDK here : <a href="https://www.java.com/en/download/">Install latest Java Development Kit (JRE)</a>
+You can get the latest JRE here : <a href="https://www.java.com/en/download/">Install latest Java Runtime Environment (JRE)</a>
 
 Currently, on Jan 3rd, 2020, the latest JRE is version 8.
 
