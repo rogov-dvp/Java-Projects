@@ -1,6 +1,7 @@
 ## JDK Requirements
 
-"Malzars-Maze.jar" - Requires <b>JDK 10.0.0 or above</b>
+"Malzars-Maze.jar" - Requires <b>JDK 13.0.0 or above</b>
+"Brick-Breaker-Game.jar" - Requires <b>JDK 13.0.0 or above</b>
 
 ## Checking your JDK version
 
@@ -8,7 +9,7 @@
 
 (2.) Type ``` java -version ```
 
-(3.) If you get an output that shows "1.7.0 or above". Then running the "Malzars-Maze.jar" should work. If there is an error output, it is most likely that JDK has not been installed.
+(3.) If you get an output that shows "1.8.0 or above". Then running the "Malzars-Maze.jar" should work. If there is an error output, it is most likely that JDK has not been installed.
 
 ## Installing JDK
 
