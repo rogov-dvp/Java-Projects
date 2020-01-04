@@ -1,6 +1,7 @@
 ## JDK Requirements
 
 "Malzars-Maze.jar" - Requires <b>JDK 13.0.0 or above</b>
+
 "Brick-Breaker-Game.jar" - Requires <b>JDK 13.0.0 or above</b>
 
 ## Checking your JDK version
