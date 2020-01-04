@@ -1,21 +1,21 @@
-## JDK Requirements
+## JRE Requirements
 
-"Malzars-Maze.jar" - Requires <b>JDK 13.0.0 or above</b>
+"Malzars-Maze.jar" - Requires <b>JRE 8 or above</b>
 
-"Brick-Breaker-Game.jar" - Requires <b>JDK 13.0.0 or above</b>
+"Brick-Breaker-Game.jar" - Requires <b>JRE 8 or above</b>
 
-## Checking your JDK version
+## Checking your JRE version
 
 (1.) Open 'Command Prompt' (Windows) or 'Terminal' (macOS) on your machine.
 
 (2.) Type ``` java -version ```
 
-(3.) If you get an output that shows "1.8.0 or above". Then running the "Malzars-Maze.jar" should work. If there is an error output, it is most likely that JDK has not been installed.
+(3.) If you get an output that shows "1.8.0 or above". Then running the "Malzars-Maze.jar" should work. If there is an error output, it is most likely that JRE has not been installed.
 
-## Installing JDK
+## Installing JRE
 
-You can get the latest JDK here : <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">Install latest Java Development Kit (JDK)</a>
+You can get the latest JDK here : <a href="https://www.java.com/en/download/">Install latest Java Development Kit (JRE)</a>
 
-Currently, on Jan 3rd, 2020, the latest JDK is version 13.0.0.
+Currently, on Jan 3rd, 2020, the latest JRE is version 8.
 
 
