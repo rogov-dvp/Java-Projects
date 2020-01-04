@@ -183,8 +183,6 @@ public class Painting extends JPanel implements PaintingTypes{
 		int h = metrics.getHeight();										//h pixel of height 
 		int strX = metrics.stringWidth(text);								//text pixel of width
 		
-		System.out.println(h);
-		
 		int padX = Math.abs(length - strX)/2 + x;							//Centers text horizontally
 		int padY = (int)((Math.abs(height-h))/2 + y + fontSize);			//Centers text vertically.
 		
