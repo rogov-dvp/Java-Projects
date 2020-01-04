@@ -15,6 +15,7 @@ A game in which a player traversers in a maze with limited visibility and collec
 A simple game of bouncing a ball off a paddle and breaking bricks.
 
 
-## information on the games
+## Information on the games
 
-Malzars Maze is by far the most intricate game and fully devloped of the two
+Malzars Maze is by far the most intricate game and fully devloped of the two. So let's start with it first
+
