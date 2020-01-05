@@ -4,7 +4,7 @@ This repository holds Java games that I have developed and would like to showcas
 
 ## Playing the games
 
-Currently there are two games. Click on the one you would like to play:
+Currently there are two games. You can play them by clicking the titles of the games:
 
 ### <a href="https://github.com/rogov-dvp/Java-Projects/tree/master/PLAYME">Malzars Maze</a> 
 
