@@ -21,7 +21,7 @@ Malzars Maze is by far the most intricate game and fully devloped of the two. So
 
 [Click here](#brick-breaker-game-1) to jump to "Brick Breaker Game".
 
-### Malzar's Maze
+## Malzar's Maze
 
 (1.) This is the first page you see when starting the game.
 
@@ -82,4 +82,4 @@ Two, go back to difficulty options page to change difficulty and reload the same
 
 <img href="" alt="Win-Page">
 
-### Brick Breaker Game
+## Brick Breaker Game
