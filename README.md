@@ -17,7 +17,7 @@ A simple game of bouncing a ball off a paddle and breaking bricks.
 
 ## Information on the games
 
-Malzars Maze is by far the most intricate game and fully devloped of the two. So let's start with it first.
+Malzars Maze is by far the most intricate and fully devloped of the two games. So let's start with it first.
 
 [Click here](#brick-breaker-game-1) to jump to "Brick Breaker Game".
 
