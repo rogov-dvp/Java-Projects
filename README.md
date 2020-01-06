@@ -6,7 +6,7 @@ This repository holds Java games that I have developed and would like to showcas
 
 Currently there are two games. You can play them by clicking the titles of the games:
 
-### <a href="https://github.com/rogov-dvp/Java-Projects/tree/master/PLAYME">Malzars Maze</a> 
+### <a href="https://github.com/rogov-dvp/Java-Projects/tree/master/PLAYME">Malzar's Maze</a> 
 
 A game in which a player traversers in a maze with limited visibility and collects keys while a minotaur chases you.
 
@@ -17,7 +17,7 @@ A simple game of bouncing a ball off a paddle and breaking bricks.
 
 ## Information on the games
 
-Malzars Maze is by far the most intricate and fully devloped of the two games. So let's start with it first.
+Malzar's Maze is by far the most intricate and fully devloped of the two games. So let's start with it first.
 
 [Click here](#brick-breaker-game-1) to jump to "Brick Breaker Game".
 
