@@ -39,13 +39,13 @@
 	</section>
 	<section name="FatJarPackageWizard">
 		<item key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION" value="C:\Users\alexa\OneDrive\Documents\languages\Java"/>
-		<item key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME" value="Main - BrickBreakerGame"/>
-		<item key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION" value="C:\Users\alexa\OneDrive\Documents\languages\Java\PLAYME\Brick-Breaker-Game.jar"/>
+		<item key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME" value="Main (1) - MazeGame"/>
+		<item key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION" value="C:\Users\alexa\OneDrive\Documents\languages\Java\PLAYME\Malzars-Maze.jar"/>
 		<item key="FatJarPackageWizardPage.ANTSCRIPT_SAVE" value="false"/>
 		<item key="FatJarPackageWizardPage.LIBRARY_HANDLING" value="1"/>
 		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
-			<item value="C:\Users\alexa\OneDrive\Documents\languages\Java\PLAYME\Brick-Breaker-Game.jar"/>
 			<item value="C:\Users\alexa\OneDrive\Documents\languages\Java\PLAYME\Malzars-Maze.jar"/>
+			<item value="C:\Users\alexa\OneDrive\Documents\languages\Java\PLAYME\Brick-Breaker-Game.jar"/>
 			<item value="C:\Users\alexa\OneDrive\Documents\languages\Java\jar_files\Malzars_Maze.jar"/>
 		</list>
 		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
