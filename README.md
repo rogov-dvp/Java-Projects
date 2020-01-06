@@ -17,7 +17,7 @@ Currently there are two games. You can play them by clicking the titles of the g
 
 ## Information on the games
 
-Malzar's Maze is by far the most intricate and fully devloped of the two games. So let's start with it first.
+Malzar's Maze is by far the most intricate and unique of the two games. So let's start with it first.
 
 [Click here](#brick-breaker-game-1) to jump to "Brick Breaker Game".
 
