@@ -37,7 +37,7 @@ The story goes that the player is on an expedition in an deep underground maze t
 
 (3) The controls and gameplay of the game are found here.
 
-Controls consist of arrow keys(up, down, left, right). Gameplay explains that there are four (in current patch) objects in the game: player (orange ball), white key (small white ball), gold key (small gold ball), and a minotaur (red ball). The player must navigate through the maze and colelct keys to win; Meanwhile, the minotaur chases the player.
+Controls consist of arrow keys (up, down, left, right). Gameplay explains that there are four objects in the game: player (orange ball), white key (small white ball), gold key (small gold ball), and a minotaur (red ball). The player must navigate through the maze and collect keys to win; Meanwhile, the minotaur chases the player.
 
 
 <img src="README-Images/Options-Page.png" height="300px" alt="Options-Page">
@@ -49,7 +49,7 @@ Controls consist of arrow keys(up, down, left, right). Gameplay explains that th
 <img src="README-Images/Difficulty-Page.png" height="300px" alt="Difficulty-Page">
 
 
-(5) Finally, the start of the game. There is no time limit (in current patch), and the minotaur does not appear until the player has left a small radius from the starting point. The player is granted vision of all three keys. However, The player has vision of the entire maze until the player makes a valid move.
+(5) Finally, the start of the game. There is no time limit, and the minotaur does not appear until the player has left a small radius from the starting point. The player is granted vision of all three keys. However, The player has vision of the entire maze until the player makes a valid move.
 
 
 <img src="README-Images/Game-First-Page.png" height="300px" alt="First-Game-Page">
