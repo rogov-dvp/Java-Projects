@@ -19,7 +19,7 @@ A simple game of bouncing a ball off a paddle and breaking bricks.
 
 Malzars Maze is by far the most intricate game and fully devloped of the two. So let's start with it first.
 
-[Click here](Brick Breaker Game) to jump to "Brick Breaker Game".
+[Click here](brick-breaker-game) to jump to "Brick Breaker Game".
 
 ### Malzar's Maze
 
@@ -83,4 +83,4 @@ Two, go back to difficulty options page to change difficulty and reload the same
 
 <img href="" alt="Win-Page">
 
-### Brick Breaker Game
+### brick-breaker-game
