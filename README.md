@@ -4,7 +4,7 @@ This repository holds Java games that I have developed and would like to showcas
 
 ## Playing the games
 
-Currently there are two games. Click on the one you would like to play:
+Currently there are two games. You can play them by clicking the titles of the games:
 
 ### <a href="https://github.com/rogov-dvp/Java-Projects/tree/master/PLAYME">Malzars Maze</a> 
 
@@ -15,6 +15,7 @@ A game in which a player traversers in a maze with limited visibility and collec
 A simple game of bouncing a ball off a paddle and breaking bricks.
 
 
-## information on the games
+## Information on the games
 
-Malzars Maze is by far the most intricate game and fully devloped of the two
+Malzars Maze is by far the most intricate game and fully devloped of the two. So let's start with it first
+
