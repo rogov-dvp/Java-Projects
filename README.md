@@ -64,7 +64,6 @@ Controls consist of arrow keys(up, down, left, right). Gameplay explains that th
 (7) In the case of the player begin caught by the minotaur, they are given the screen below. They are given two options:
 
 1. One, restart with a new random-generated maze with same difficulty. 
-
 2. Two, go back to difficulty options page to change difficulty and reload the same maze (with new random white-key locations).
 
 
