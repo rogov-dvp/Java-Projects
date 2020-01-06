@@ -19,3 +19,7 @@ A simple game of bouncing a ball off a paddle and breaking bricks.
 
 Malzars Maze is by far the most intricate game and fully devloped of the two. So let's start with it first
 
+(1.) This is the first page you see when starting the game
+<img href="" alt="Front-Page">
+
+(2.)
