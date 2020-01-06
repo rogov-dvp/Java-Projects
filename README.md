@@ -52,13 +52,13 @@ Controls consist of arrow keys(up, down, left, right). Gameplay explains that th
 (5) Finally, the start of the game. There is no time limit (in current patch), and the minotaur does not appear until the player has left a small radius from the starting point. The player is granted vision of all three keys. 
 
 
-<img src="README-Images/First-Game-Page.png" height="300px" alt="First-Game-Page">
+<img src="README-Images/Game-First-Page.png" height="300px" alt="First-Game-Page">
 
 
 (6) The player's vision is based on the surrounding walls which is close to reality. This makes every turn intense as the player apprehensively guesses if the minotaur is waiting around the corner. 
 
 
-<img src="README-Images/Minotaur-Page.png" height="300px" alt="Minotaur-Page">
+<img src="README-Images/Minotaur-Start-Page.png" height="300px" alt="Minotaur-Page">
 
 
 (7) In the case of the player begin caught by the minotaur, they are given the screen below. They are given two options:
