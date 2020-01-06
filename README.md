@@ -24,8 +24,11 @@ Malzars Maze is by far the most intricate game and fully devloped of the two. So
 ## Malzar's Maze
 
 (1) This is the first page you see when starting the game.
-<img src="README-Images/Front-Page.png" height="300px" alt="Front Page">
 
+<div style="text-align:center;">
+<img src="README-Images/Front-Page.png" height="300px" alt="Front Page">
+<div>
+  
 (2) This page gives a story and background about the game. 
 
 The story goes that the player is on an expedition in an deep underground maze to find treasures while there is hints of a minotaur hunting him.
