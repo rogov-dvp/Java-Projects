@@ -31,7 +31,7 @@ Malzars Maze is by far the most intricate game and fully devloped of the two. So
 The story goes that the player is on an expedition in an deep underground maze to find treasures while there is hints of a minotaur hunting him.
 
 
-<img src="README-Images/Story-Background-Page.png" height="300px" alt="Story-Background-Page">
+<img src="README-Images/Background-Story-Page.png" height="300px" alt="Story-Background-Page">
 
 
 (3) The controls and gameplay of the game are found here.
