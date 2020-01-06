@@ -34,7 +34,7 @@ The story goes that the player is on an expedition in an deep underground maze t
 <img src="README-Images/Story-Background-Page.png" height="300px" alt="Story-Background-Page">
 
 
-(3.) The controls and gameplay of the game are found here.
+(3) The controls and gameplay of the game are found here.
 
 Controls consist of arrow keys(up, down, left, right). Gameplay explains that there are four (in current patch) objects in the game: player (orange ball), white key (small white ball), gold key (small gold ball), and a minotaur (red ball). The player must navigate through the maze and colelct keys to win; Meanwhile, the minotaur chases the player.
 
@@ -42,25 +42,25 @@ Controls consist of arrow keys(up, down, left, right). Gameplay explains that th
 <img src="README-Images/Options-Page.png" height="300px" alt="Options-Page">
 
 
-(4.) The difficulty page changes the difficulty on the game. There are four difficulties to select, 'one' being the easiet and 'four' being the hardest. The difficulty changes the speed of the minotaur. After selecting an option, the game begins.
+(4) The difficulty page changes the difficulty on the game. There are four difficulties to select, 'one' being the easiet and 'four' being the hardest. The difficulty changes the speed of the minotaur. After selecting an option, the game begins.
 
 
 <img src="README-Images/Difficulty-Page.png" height="300px" alt="Difficulty-Page">
 
 
-(5.) Finally, the start of the game. There is no time limit (in current patch), and the minotaur does not appear until the player has left a small radius from the starting point. The player is granted vision of all three keys. 
+(5) Finally, the start of the game. There is no time limit (in current patch), and the minotaur does not appear until the player has left a small radius from the starting point. The player is granted vision of all three keys. 
 
 
 <img src="README-Images/First-Game-Page.png" height="300px" alt="First-Game-Page">
 
 
-(6.) The player's vision is based on the surrounding walls which is close to reality. This makes every turn intense as the player apprehensively guesses if the minotaur is waiting around the corner. 
+(6) The player's vision is based on the surrounding walls which is close to reality. This makes every turn intense as the player apprehensively guesses if the minotaur is waiting around the corner. 
 
 
 <img src="README-Images/Minotaur-Page.png" height="300px" alt="Minotaur-Page">
 
 
-(7.) In the case of the player begin caught by the minotaur, they are given the screen below. They are given two options:
+(7) In the case of the player begin caught by the minotaur, they are given the screen below. They are given two options:
 
 One, restart with a new random-generated maze with same difficulty. 
 
@@ -70,7 +70,7 @@ Two, go back to difficulty options page to change difficulty and reload the same
 <img src="README-Images/Slain-Page.png" height="300px" alt="Slain-Page">
 
 
-(8.) In the case of the player collect all keys and wins, they are given the screen below. Given with the same two options:  
+(8) In the case of the player collect all keys and wins, they are given the screen below. Given with the same two options:  
 
 One, restart with a new random-generated maze with same difficulty. 
 
