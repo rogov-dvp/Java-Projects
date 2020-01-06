@@ -8,7 +8,7 @@ Currently there are two games. You can play them by clicking the titles of the g
 
 ### <a href="https://github.com/rogov-dvp/Java-Projects/tree/master/PLAYME">Malzars Maze</a> 
 
-A game in which a player traversers in a maze with limited visibility and collects keys while a minotaur chases you. 
+A game in which a player traversers in a maze with limited visibility and collects keys while a minotaur chases you.
 
 ### <a href="https://github.com/rogov-dvp/Java-Projects/tree/master/PLAYME">Brick Breaker Game</a>
 
@@ -17,9 +17,70 @@ A simple game of bouncing a ball off a paddle and breaking bricks.
 
 ## Information on the games
 
-Malzars Maze is by far the most intricate game and fully devloped of the two. So let's start with it first
+Malzars Maze is by far the most intricate game and fully devloped of the two. So let's start with it first.
 
-(1.) This is the first page you see when starting the game
+[Click here](Brick Breaker Game) to jump to "Brick Breaker Game".
+
+### Malzar's Maze
+
+(1.) This is the first page you see when starting the game.
+
+
 <img href="" alt="Front-Page">
 
-(2.)
+
+(2.) This page gives a story and background about the game. 
+
+The story goes that the player is on an expedition in an deep underground maze to find treasures while there is hints of a minotaur hunting him.
+
+
+<img href="" alt="Story-Background-Page">
+
+
+(3.) The controls and gameplay of the game are found here.
+
+Controls consist of arrow keys(up, down, left, right). Gameplay explains that there are four (in current patch) objects in the game: player (orange ball), white key (small white ball), gold key (small gold ball), and a minotaur (red ball). The player must navigate through the maze and colelct keys to win; Meanwhile, the minotaur chases the player.
+
+
+<img href="" alt="Options-Page">
+
+
+(4.) The difficulty page changes the difficulty on the game. There are four difficulties to select, 'one' being the easiet and 'four' being the hardest. The difficulty changes the speed of the minotaur. After selecting an option, the game begins.
+
+
+<img href="" alt="Difficulty-Page">
+
+
+(5.) Finally, the start of the game. There is no time limit (in current patch), and the minotaur does not appear until the player has left a small radius from the starting point. The player is granted vision of all three keys. 
+
+
+<img href="" alt="First-Game-Page">
+
+
+(6.) The player's vision is based on the surrounding walls which is close to reality. This makes every turn intense as the player apprehensively guesses if the minotaur is waiting around the corner. 
+
+
+<img href="" alt="Second-Game-Page">
+<img href="" alt="Minotaur-Page">
+
+
+(7.) In the case of the player begin caught by the minotaur, they are given the screen below. They are given two options:
+
+One, restart with a new random-generated maze with same difficulty. 
+
+Two, go back to difficulty options page to change difficulty and reload the same maze (with new random white-key locations).
+
+
+<img href="" alt="Slain-Page">
+
+
+
+(8.) In the case of the player collect all keys and wins, they are given the screen below. Given with the same two options:  
+
+One, restart with a new random-generated maze with same difficulty. 
+
+Two, go back to difficulty options page to change difficulty and reload the same maze (with new random white-key locations).
+
+<img href="" alt="Win-Page">
+
+### Brick Breaker Game
