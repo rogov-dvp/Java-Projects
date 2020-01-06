@@ -4,7 +4,7 @@
 
 "Brick-Breaker-Game.jar" - Requires <b>JRE* 8 or above</b>
 
-*\*JRE stands for 'Java Runtime Environment' and is necessary to have to run a Java program.*
+*\* JRE stands for 'Java Runtime Environment' and is necessary to have to run a Java program.*
 
 ## Checking your JRE version
 
