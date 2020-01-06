@@ -49,7 +49,7 @@ Controls consist of arrow keys(up, down, left, right). Gameplay explains that th
 <img src="README-Images/Difficulty-Page.png" height="300px" alt="Difficulty-Page">
 
 
-(5) Finally, the start of the game. There is no time limit (in current patch), and the minotaur does not appear until the player has left a small radius from the starting point. The player is granted vision of all three keys. 
+(5) Finally, the start of the game. There is no time limit (in current patch), and the minotaur does not appear until the player has left a small radius from the starting point. The player is granted vision of all three keys. However, The player has vision of the entire maze until the player makes a valid move.
 
 
 <img src="README-Images/Game-First-Page.png" height="300px" alt="First-Game-Page">
@@ -63,19 +63,17 @@ Controls consist of arrow keys(up, down, left, right). Gameplay explains that th
 
 (7) In the case of the player begin caught by the minotaur, they are given the screen below. They are given two options:
 
-One, restart with a new random-generated maze with same difficulty. 
-
-Two, go back to difficulty options page to change difficulty and reload the same maze (with new random white-key locations).
+1. One, restart with a new random-generated maze with same difficulty. 
+2. Two, go back to difficulty options page to change difficulty and reload the same maze (with new random white-key locations).
 
 
 <img src="README-Images/Slain-Page.png" height="300px" alt="Slain-Page">
 
 
-(8) In the case of the player collect all keys and wins, they are given the screen below. Given with the same two options:  
+(8) In the case of the player collect all keys and wins, they are given the screen below. Given with the same two options:
 
-One, restart with a new random-generated maze with same difficulty. 
-
-Two, go back to difficulty options page to change difficulty and reload the same maze (with new random white-key locations).
+1.One, restart with a new random-generated maze with same difficulty. 
+2.Two, go back to difficulty options page to change difficulty and reload the same maze (with new random white-key locations).
 
 <img src="README-Images/Win-Page.png" height="300px" alt="Win-Page">
 
