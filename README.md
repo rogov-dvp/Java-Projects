@@ -25,9 +25,7 @@ Malzars Maze is by far the most intricate game and fully devloped of the two. So
 
 (1) This is the first page you see when starting the game.
 
-<div style="text-align:center;">
 <img src="README-Images/Front-Page.png" height="300px" alt="Front Page">
-<div>
   
 (2) This page gives a story and background about the game. 
 
