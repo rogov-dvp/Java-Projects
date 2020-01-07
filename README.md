@@ -8,7 +8,7 @@ Currently there are two games. You can play them by clicking the titles of the g
 
 ### <a href="https://github.com/rogov-dvp/Java-Projects/tree/master/PLAYME">Malzar's Maze</a> 
 
-> A game in which a player traversers in a maze with limited visibility and collects keys while a minotaur chases them.
+> A game in which a player traverses in a maze with limited visibility and collects keys while a minotaur chases them.
 
 ### <a href="https://github.com/rogov-dvp/Java-Projects/tree/master/PLAYME">Brick Breaker Game</a>
 
