@@ -82,5 +82,3 @@ Controls consist of arrow keys (up, down, left, right). Gameplay explains that t
 2. Two, go back to difficulty options page to change difficulty and reload the same maze (with new random white-key locations).
 
 <img src="README-Images/Win-Page.png" height="300px" alt="Win-Page">
-
-## Brick Breaker Game
